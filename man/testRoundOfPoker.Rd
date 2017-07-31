@@ -48,4 +48,7 @@ Locals:		nPlayers : number of hands to deal
 											# 2 = One Pair
 											# 1 = High Card
 Outputs:		@return textual summary that includes scores of each hand, as well as a graphical display of the round
+
+@examples
+testRoundOfPoker()
 }
