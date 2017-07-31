@@ -2,7 +2,7 @@ Package: poker
 Title: Play Texas Hold ‘Em Poker in R
 Version: 0.0.0.9000
 Authors@R: person("Benjamin", "Greenspan", email = "benjamin.greenspan@gmail.com", role = c("aut", "cre"))
-Description: Rotates the dealer button, deals cards, ranks each hand, compares ranks, breaks ties (if necessary), determines the winner, outputs a textual summary, and outputs a graphical user interface.
+Description: Rotates the dealer button, deals cards, ranks each hand, compares ranks, breaks ties (if necessary), determines the winner, outputs a textual summary, and outputs a graphical user interface.  Type "testRoundOfPoker()" for a demonstration.
 Depends: 
 License: MIT
 COPYRIGHT: Benjamin Greenspan <benjamin.greenspan@gmail.com>
