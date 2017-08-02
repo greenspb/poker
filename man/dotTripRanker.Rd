@@ -2,34 +2,42 @@
 % Please edit documentation in R/poker.R
 \name{dotTripRanker}
 \alias{dotTripRanker}
-\title{Function: 	dotTripRanker}
+\title{dotTripRanker}
 \usage{
 dotTripRanker(oneHand)
 }
+\arguments{
+\item{oneHand}{\tabular{ll}{a sorted hand with ranks only as
+vector[7] \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: rank of card 2 \cr \tab
+. \cr \tab
+. \cr \tab
+. \cr \tab
+col7: rank of card 7}}
+}
+\value{
+tripRank : the rank of the pair as
+											vector
+}
 \description{
-Author: Ben Greenspan		
-Created: December 17, 2010
-Description:	This function requires a hand with a score of 2. The function determines the rank of the pair.  
-Inputs:		@param oneHand : a sorted hand with ranks only.
-											#vector[7]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: rank of card 2
-											#.
-											#.
-											#.
-											#col7: rank of card 7
-			@param rankValues : the unique values of equal ranks
-											#vector
-											#col1: lowest unique rank
-											#.
-											#.
-											#.
-											#coln: highest unique rank
-			@param rankLengths : the lengths of equal ranks
-											#vector
-											#col1: length of lowest rank
-											#.
-											#.
-Outputs:		@return pairRank : the rank of the pair
-											#vector
+Determines the rank of the three of a kind.  Note: dotTripRanker requires a hand with a score of 4 (i.e., three of a kind).
+}
+\details{
+Locals:\cr
+\tabular{ll}{rankValues: the unique values of equal ranks as
+											vector \tab \cr \tab
+											col1: lowest unique rank \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											coln: highest unique rank} \cr
+\tabular{ll}{rankLengths: the lengths of equal ranks as
+											vector \tab \cr \tab
+											col1: length of lowest rank \cr \tab
+											. \cr \tab
+											.} \cr
+}
+\examples{
+dotTripRanker(c(9,7,5,3,3,3,2))
 }

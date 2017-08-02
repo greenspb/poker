@@ -2,59 +2,65 @@
 % Please edit documentation in R/poker.R
 \name{dotFlushRanker}
 \alias{dotFlushRanker}
-\title{Function: 	dotFlushRanker}
+\title{dotFlushRanker}
 \usage{
 dotFlushRanker(cardsRow)
 }
+\arguments{
+\item{cardsRow}{\tabular{ll}{one 7 card hand as
+vector[14] \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
+col3: rank of card 2 \cr \tab
+col4: suit of card 2 \cr \tab
+. \cr \tab
+. \cr \tab
+. \cr \tab
+col13: rank of card 7 \cr \tab
+col14: suit of card 7}}
+}
+\value{
+\tabular{ll}{flushRank : the rank of 5 high cards in flush as
+											vector[5] \tab \cr \tab
+											col1: suit of card 1 in \{2, ... , 14\} \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											col5: suit of card n in \{2, ... , 14\}}
+}
 \description{
-Author: Ben Greenspan		
-Created: December 14, 2010
-Updated: December 17, 2010
-Description:	returns the rank of top 5 cards in the flush
-Inputs:		@param cardsRow : one 7 card hand
-											#vector[14]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
-											#.
-											#.
-											#.
-											#col13: rank of card 7
-											#col14: suit of card 7
-Locals:		suits : the indices for suit	#vector
-				sortedSuits : the sorted suits
-											#vector
-			suitValues : the unique values of equal suits
-											#vector
-											#col1: lowest unique suit
-											#.
-											#.
-											#.
-											#coln: highest unique suit
-			suitLengths : the lengths of equal suits
-											#vector
-											#col1: length of lowest rank
-											#.
-											#.
-											#.
-											#coln: length of highest rank
-			flushSuit : the suit of the flush
-											#integer
-			flushIndex : the indices of cards in flush
-											#vector of integers 
-											#col1: index in {1,2,...,7}
-											#.
-											#.
-											#.
-											#coln: index in {1,2,...,7}
-Outputs:		@return flushRank : the rank of 5 high cards in flush
-											#vector[5]
-											#col1: suit of card 1 in {2, ... , 14}
-											#.
-											#.
-											#.
-											#col5: suit of card n in {2, ... , 14}
-Outputs:		@return winner : absolute position of the winner
-											#vector
+Returns ranks of the 5 highest cards in the flush. \cr
+}
+\details{
+Locals: \cr
+suits : the indices for suit as	vector \cr
+				sortedSuits : the sorted suits as
+											vector \cr
+			\tabular{ll}{ suitValues : the unique values of equal suits as
+											vector \tab \cr \tab
+											col1: lowest unique suit \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											coln: highest unique suit} \cr
+			\tabular{ll}{suitLengths : the lengths of equal suits as
+											vector \tab \cr \tab
+											col1: length of lowest rank \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											coln: length of highest rank} \cr
+			flushSuit : the suit of the flush as
+											integer \cr
+			\tabular{ll}{flushIndex : the indices of cards in flush as
+											vector of integers \tab \cr \tab
+											col1: index in {1,2,...,7} \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											coln: index in \{1,2,...,7\}}
+}
+\examples{
+dotFlushRanker(c(2,1,2,2,5,2,7,2,8,2,9,2,11,1))
+dotFlushRanker(c(2,1,2,2,5,2,7,2,8,2,9,2,11,2))
 }

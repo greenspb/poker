@@ -2,34 +2,44 @@
 % Please edit documentation in R/poker.R
 \name{hand}
 \alias{hand}
-\title{Function: 	hand}
+\title{hand}
 \usage{
 hand(players, board)
 }
+\arguments{
+\item{players}{\tabular{ll}{the hole cards as            matrix[nPlayers, 4] \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
+col3: rank of card 2 \cr \tab
+col4: suit of card 2}}
+
+\item{board}{the board cards    as        vector[5] in \{1, 2, ..., 52\}}
+}
+\value{
+\tabular{ll}{cards : the 7 card hand as
+											matrix[nPlayers, 14] \tab \cr \tab
+											col1: rank of card 1 in \{2, ... , 14\} \cr \tab 
+											col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
+											col3: rank of card 2 \cr \tab
+											col4: suit of card 2 \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											col13: rank of card 7 \cr \tab
+											col14: suit of card 7}
+}
 \description{
-Author: Ben Greenspan		
-Created: May/June 2010
-Description:	determine the 7 card hands
-Inputs:	@param players :	the hole cards			#matrix[nPlayers, 4]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
-		@param board :	the board cards			#vector[5] in {1, 2, ..., 52}
-Locals:	nPlayers : number of hands			#integer in {1, 2, ... , 8}
-			i : for name in vector
-											#numeric in vector
-			j : index for hole cards
-											#numeric in vector
-Outputs:	cards : the 7 card hand
-											#matrix[nPlayers, 14]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
-											#.
-											#.
-											#.
-											#col13: rank of card 7
-											#col14: suit of card 7
+Assemble the 7 card hands. \cr
+}
+\details{
+Locals: \cr
+nPlayers : number of hands as			integer in \{2, ... , 9\} \cr
+i : for name in vector as
+									numeric in vector \cr
+j : index for hole cards as
+											numeric in vector \cr
+}
+\examples{
+hand(matrix(1:18,9,2,byrow=TRUE),19:23)
+hand(matrix(c(1:9,14:22),9,2,byrow=FALSE),48:52)
 }

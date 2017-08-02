@@ -2,20 +2,28 @@
 % Please edit documentation in R/poker.R
 \name{transformToSuit}
 \alias{transformToSuit}
-\title{Function: 	transformToSuit}
+\title{transformToSuit}
 \usage{
 transformToSuit(y)
 }
+\arguments{
+\item{y}{number corresponding to card as
+integer in \{1, 2, ... , 52\} \cr}
+}
+\value{
+\tabular{ll}{suit: suit of card y as
+											integer in \{1, 2, 3, 4\} \tab \cr \tab
+											 1 = spade \cr \tab
+											 2 = club \cr \tab
+											 3 = heart \cr \tab
+											 4 = diamond}
+}
 \description{
-Author: Ben Greenspan		
-Created: May/June 2010
-Description:	transforms a number into a suit
-Inputs:		@param y : number corresponding to card
-											#integer in {1, 2, ... , 52}
-Outputs:		@return suit: suit of card y 
-											#integer in {1, 2, 3, 4}
-											# 1 = ♠
-											# 2 = ♣
-											# 3 = ♥
-											# 4 = ♦
+Determines the suit of a card. \cr
+}
+\examples{
+transformToSuit(1)
+transformToSuit(13)
+transformToSuit(14)
+transformToSuit(26)
 }

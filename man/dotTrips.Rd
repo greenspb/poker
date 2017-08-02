@@ -2,51 +2,61 @@
 % Please edit documentation in R/poker.R
 \name{dotTrips}
 \alias{dotTrips}
-\title{Function: 	dotTrips}
+\title{dotTrips}
 \usage{
 dotTrips(nPlayers, cards, score)
 }
+\arguments{
+\item{nPlayers}{number of hands as        integer in \{2, ... , 9\}}
+
+\item{cards}{\tabular{ll}{the 7 card hand as
+matrix[nPlayers, 14] \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
+col3: rank of card 2 \cr \tab
+col4: suit of card 2 \cr \tab
+. \cr \tab
+. \cr \tab
+. \cr \tab
+col13: rank of card 7 \cr \tab
+col14: suit of card 7}}
+
+\item{score}{\tabular{ll}{the score of the hand in absolute terms as
+vector[nPlayers] \tab \cr \tab
+ 9 = Straight Flush \cr \tab
+ 8 = Four of a Kind \cr \tab
+ 7 = Full House \cr \tab
+ 6 = Flush \cr \tab
+ 5 = Straight \cr \tab
+ 4 = Three of a Kind \cr \tab
+ 3 = Two Pair \cr \tab
+ 2 = One Pair \cr \tab
+ 1 = High Card}}
+}
+\value{
+winner : absolute position of the winner as
+											vector
+}
 \description{
-Author: Ben Greenspan		
-Created: December 14, 2010
-Updated: December 17, 2010
-Description:	determines the players with the highest pair and kicker cards.
-Inputs:		@param nPlayers : number of hands		#integer in {1, 2, ... , 8}
-			@param cards : the 7 card hand
-											#matrix[nPlayers, 14]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
-											#.
-											#.
-											#.
-											#col13: rank of card 7
-											#col14: suit of card 7
-			@param score : the score of the hand in absolute terms
-											#vector[nPlayers]
-											# 9 = Straight Flush
-											# 8 = Four of a Kind
-											# 7 = Full House
-											# 6 = Flush
-											# 5 = Straight
-											# 4 = Three of a Kind
-											# 3 = Two Pair
-											# 2 = One Pair
-											# 1 = High Card
-Locals:		ranks : the indices for rank	#vector
-			temp : a copy of cards with ranks only
-											#matrix[nPlayers, 7]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: rank of card 2
-											#.
-											#.
-											#.
-											#col7: rank of card 7
-			tripRank : the rank of each set of three of a kind
-											#vector[nPlayers]
-			kickers : the two highest unpaired cards
-											#matrix[nPlayers,2]
-Outputs:		@return winner : absolute position of the winner
-											#vector
+Determines the players with the highest three of a kind and kicker cards.
+}
+\details{
+Locals: \cr		
+ranks : the indices for rank as	vector \cr
+			\tabular{ll}{temp : a copy of cards with ranks only as
+											matrix[nPlayers, 7] \tab \cr \tab
+											col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+											col2: rank of card 2 \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											col7: rank of card 7} \cr
+			tripRank : the rank of each set of three of a kind as
+											vector[nPlayers] \cr
+			kickers : the two highest unpaired cards as
+											matrix[nPlayers,2] \cr
+}
+\examples{
+dotTrips(4,matrix(c(14, 14, 4, 5, 1, 2, 1, 1, 10, 9, 6, 7, 2, 2, 2, 2, 4, 4, 4, 4, 3, 3, 3, 3, 8, 8, 8, 8, 3, 3, 3, 3, 13, 13, 13, 13, 3, 3, 3, 3, 14, 14, 14, 14, 3, 3, 3, 3, 14, 14, 14, 14, 4, 4, 4, 4), byrow=FALSE,nrow=4,ncol=14),c(4,4,3,2))
+dotTrips(4,matrix(c(14, 14, 4, 5, 1, 2, 1, 1, 2, 3, 6, 7, 2, 2, 2, 2, 4, 4, 4, 4, 3, 3, 3, 3, 11, 11, 11, 11, 3, 3, 3, 3, 13, 13, 13, 13, 3, 3, 3, 3, 14, 14, 14, 14, 3, 3, 3, 3, 14, 14, 14, 14, 4, 4, 4, 4), byrow=FALSE,nrow=4,ncol=14),c(4,4,3,2))
 }

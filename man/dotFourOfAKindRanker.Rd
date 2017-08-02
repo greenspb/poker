@@ -2,39 +2,47 @@
 % Please edit documentation in R/poker.R
 \name{dotFourOfAKindRanker}
 \alias{dotFourOfAKindRanker}
-\title{Function: 	dotFourOfAKindRanker}
+\title{dotFourOfAKindRanker}
 \usage{
 dotFourOfAKindRanker(oneHand)
 }
+\arguments{
+\item{oneHand}{\tabular{ll}{the ranks of one 7 card hand as
+vector[7] \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: rank of card 2 \cr \tab
+. \cr \tab
+. \cr \tab
+. \cr \tab
+col7: rank of card 7}}
+}
+\value{
+\tabular{ll}{fourOfAKindRank : the ranks of the quads and the high kicker as
+											vector \tab \cr \tab
+											col1: the rank of the quads \cr \tab
+											col2: the rank of the kicker}
+}
 \description{
-Author: Ben Greenspan		
-Created: December 15, 2010
-Updated: December 17, 2010
-Description:	returns the rank of the four of a kind and the kicker
-Inputs:		@param oneHand : the ranks of one 7 card hand
-											#vector[7]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: rank of card 2
-											#.
-											#.
-											#.
-											#col7: rank of card 7
-Locals:		values : the unique values of equal ranks
-											#vector
-											#col1: highest unique rank
-											#.
-											#.
-											#.
-											#coln: lowest unique rank
-			lengths : the lengths of equal ranks
-											#vector
-											#col1: length of highest rank
-											#.
-											#.
-											#.
-											#coln: length of lowest rank
-Outputs:		@return fourOfAKindRank : the ranks of the quads and the high kicker
-											#vector
-											#col1: the rank of the quads
-											#col2: the rank of the kicker
+Determine the rank of the four of a kind and the kicker. This functions assumes ranks are sorted in decreasing order.
+}
+\details{
+Locals: \cr	
+\tabular{ll}{values : the unique values of equal ranks as
+											vector \tab \cr \tab
+											col1: highest unique rank \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											coln: lowest unique rank} \cr
+\tabular{ll}{lengths : the lengths of equal ranks as
+											vector \tab \cr \tab
+											col1: length of highest rank \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											coln: length of lowest rank} \cr
+}
+\examples{
+dotFourOfAKindRanker(c(14,14,14,14,10,7,6))
+dotFourOfAKindRanker(sort(c(10,14,6,14,7,14,14),decreasing=TRUE))
 }

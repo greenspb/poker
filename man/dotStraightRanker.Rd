@@ -2,42 +2,34 @@
 % Please edit documentation in R/poker.R
 \name{dotStraightRanker}
 \alias{dotStraightRanker}
-\title{Function: 	dotStraightRanker
-Author: Ben Greenspan		
-Created: December 14, 2010
-Updated: December 17, 2010
-Description:	returns the highest card in the straight
-Inputs:		@param oneHand : a hand sorted from low to high with score of 5
-											#vector[7]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: rank of card 2
-											#.
-											#.
-											#.
-											#col7: rank of card 7
-Locals:		k : length of unique ranks 		#integer in {2, 3, ... , 7}
-			counter : number of cards in sequence
-Outputs:		@return straightRank : the top card in the straight
-											#integer}
+\title{dotStraightRanker}
 \usage{
 dotStraightRanker(oneHand)
 }
+\arguments{
+\item{oneHand}{\tabular{ll}{a sorted hand with ranks only as
+vector[7] \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: rank of card 2 \cr \tab
+. \cr \tab
+. \cr \tab
+. \cr \tab
+col7: rank of card 7}}
+}
+\value{
+straightRank : the rank of top card in the straight as
+											integer
+}
 \description{
-Function: 	dotStraightRanker
-Author: Ben Greenspan		
-Created: December 14, 2010
-Updated: December 17, 2010
-Description:	returns the highest card in the straight
-Inputs:		@param oneHand : a hand sorted from low to high with score of 5
-											#vector[7]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: rank of card 2
-											#.
-											#.
-											#.
-											#col7: rank of card 7
-Locals:		k : length of unique ranks 		#integer in {2, 3, ... , 7}
-			counter : number of cards in sequence
-Outputs:		@return straightRank : the top card in the straight
-											#integer
+Returns the rank of the highest card in the straight. \cr
+}
+\details{
+Locals: \cr		
+k : length of unique ranks as		integer in \{2, 3, ... , 7\} \cr
+			counter : number of cards in a consecutive sequence \cr
+}
+\examples{
+dotStraightRanker(c(2,3,4,5,6,9,10))
+dotStraightRanker(c(2,3,3,4,5,6,10))
+dotStraightRanker(c(2,3,4,5,6,7,10))
 }

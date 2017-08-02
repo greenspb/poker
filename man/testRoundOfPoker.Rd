@@ -2,53 +2,54 @@
 % Please edit documentation in R/poker.R
 \name{testRoundOfPoker}
 \alias{testRoundOfPoker}
-\title{Function: 	testRoundOfPoker}
+\title{testRoundOfPoker}
 \usage{
 testRoundOfPoker()
 }
+\value{
+Outputs a plot window showing the cards dealt as well as prints to the console the summary text, i.e., each hand's score and the winner.
+}
 \description{
-Author: Ben Greenspan		
-Created: December 19, 2010
-Description:	run a test round of poker
-Inputs:		@param alias : names of players
-											#vector of strings
-											#length of vector must be less than or equal to 9
-			@param position : dealer position 		#integer in {1, 2, ..., nPlayers}
-			@param holeCards : the hand of player 1
-Locals:		nPlayers : number of hands to deal 
-											#integer in {1, 2, ..., nPlayers}
-			y : cards dealt in hole			#vector[nCards] in {1, 2, ..., 52}
-			players :	the hole cards in absolute position
-											#matrix[nPlayers, 4]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
-			board :	the board cards			#vector[5] in {1, 2, ..., 52}
-			cards : the 7 card hand
-											#matrix[nPlayers, 14]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
-											#.
-											#.
-											#.
-											#col13: rank of card 7
-											#col14: suit of card 7
-			score : the score of the hand in absolute terms
-											#vector[nPlayers]
-											# 9 = Straight Flush
-											# 8 = Four of a Kind
-											# 7 = Full House
-											# 6 = Flush
-											# 5 = Straight
-											# 4 = Three of a Kind
-											# 3 = Two Pair
-											# 2 = One Pair
-											# 1 = High Card
-Outputs:		@return textual summary that includes scores of each hand, as well as a graphical display of the round
-
-@examples
+Run a test round of poker. \cr
+}
+\details{
+Locals: \cr
+nPlayers : number of hands to deal as 		integer in \{2, ..., nPlayers\} \cr
+			y : cards dealt in hole as		vector[nCards] in \{1, 2, ..., 52\} \cr
+			\tabular{ll}{players :	the hole cards in absolute position as
+											matrix[nPlayers, 4] \tab \cr \tab
+											col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+											col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
+											col3: rank of card 2 \cr \tab
+											col4: suit of card 2} \cr
+			board :	the board cards	as		vector[5] in \{1, 2, ..., 52\} \cr
+			\tabular{ll}{cards : the 7 card hand as
+											matrix[nPlayers, 14] \tab \cr \tab
+											col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+											col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
+											col3: rank of card 2 \cr \tab
+											col4: suit of card 2 \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											col13: rank of card 7 \cr \tab
+											col14: suit of card 7} \cr
+			\tabular{ll}{score : the score of the hand in absolute terms as
+											vector[nPlayers] \tab \cr \tab
+											 9 = Straight Flush \cr \tab
+											 8 = Four of a Kind \cr \tab
+											 7 = Full House \cr \tab
+											 6 = Flush \cr \tab
+											 5 = Straight \cr \tab
+											 4 = Three of a Kind \cr \tab
+											 3 = Two Pair \cr \tab
+											 2 = One Pair \cr \tab
+											 1 = High Card} \cr
+\tabular{ll}{alias: names of players as
+											vector of strings \tab \cr tab
+											vector length must be between 2 and 9 (inclusive)}\cr
+position dealer position as 		integer in \{2, ..., nPlayers\} \cr
+}
+\examples{
 testRoundOfPoker()
 }

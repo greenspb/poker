@@ -2,55 +2,64 @@
 % Please edit documentation in R/poker.R
 \name{dotPair}
 \alias{dotPair}
-\title{Function: 	dotPair}
+\title{dotPair}
 \usage{
 dotPair(nPlayers, cards, score)
 }
+\arguments{
+\item{nPlayers}{number of hands as        integer in \{2, ... , 9\}}
+
+\item{cards}{\tabular{ll}{the 7 card hands as
+matrix[nPlayers, 14] \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
+col3: rank of card 2 \cr \tab
+col4: suit of card 2 \cr \tab
+. \cr \tab
+. \cr \tab
+. \cr \tab
+col13: rank of card 7 \cr \tab
+col14: suit of card 7}}
+
+\item{score}{\tabular{ll}{the score of the hands in absolute terms as
+vector[nPlayers] \tab \cr \tab
+ 9 = Straight Flush \cr \tab
+ 8 = Four of a Kind \cr \tab
+ 7 = Full House \cr \tab
+ 6 = Flush \cr \tab
+ 5 = Straight \cr \tab
+ 4 = Three of a Kind \cr \tab
+ 3 = Two Pair \cr \tab
+ 2 = One Pair \cr \tab
+ 1 = High Card}}
+}
+\value{
+winner : absolute position of the winner as
+											vector
+}
 \description{
-Author: Ben Greenspan		
-Created: December 14, 2010
-Updated: December 17, 2010
-Description:	determines the players with the highest pair and kicker cards.
-Inputs:		@param nPlayers : number of hands		#integer in {1, 2, ... , 8}
-			@param cards : the 7 card hand
-											#matrix[nPlayers, 14]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
-											#.
-											#.
-											#.
-											#col13: rank of card 7
-											#col14: suit of card 7
-			@param score : the score of the hand in absolute terms
-											#vector[nPlayers]
-											# 9 = Straight Flush
-											# 8 = Four of a Kind
-											# 7 = Full House
-											# 6 = Flush
-											# 5 = Straight
-											# 4 = Three of a Kind
-											# 3 = Two Pair
-											# 2 = One Pair
-											# 1 = High Card
-Locals:		ranks : the indices for rank	#vector
-			temp : a copy of cards with ranks only
-											#matrix[nPlayers, 7]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: rank of card 2
-											#.
-											#.
-											#.
-											#col7: rank of card 7
-			pairRanks : the rank of each pair
-											#vector[nPlayers]
-			kickers : the kicker cards with respect to a pair, i.e. 3 highest nonpaired cards
-											#matrix[nPlayers,3]
-			step : the step for comparison of highest card
-											#integer
-			Tie : the positions of the players with Tied kicker cards
-											#vector
-Outputs:		@return winner : absolute position of the winner
-											#vector
+Determines the players with the highest pair and kicker cards. \cr
+}
+\details{
+Locals: \cr
+ranks : the indices for rank as	vector \cr
+\tabular{ll}{temp : a copy of cards with ranks only as
+											matrix[nPlayers, 7] \tab \cr \tab
+											col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+											col2: rank of card 2 \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											col7: rank of card 7} \cr
+			pairRanks : the rank of each pair as
+											vector[nPlayers] \cr
+			kickers : the kicker cards with respect to a pair, i.e. 3 highest nonpaired cards as
+											matrix[nPlayers,3] \cr
+			step : the step for comparison of highest card as
+											integer \cr
+			Tie : the positions of the players with Tied kicker cards as
+											vector \cr
+}
+\examples{
+dotPair(3,matrix(c(2, 3, 4, 5, 1, 1, 1, 1, 2, 3, 6, 7, 2, 2, 2, 2, 4, 4, 4, 4, 3, 3, 3, 3, 11, 11, 11, 11, 3, 3, 3, 3, 13, 13, 13, 13, 3, 3, 3, 3, 14, 14, 14, 14, 3, 3, 3, 3, 9, 9, 9, 9, 4, 4, 4, 4), byrow=FALSE,nrow=4,ncol=14),c(2,2,1))
 }

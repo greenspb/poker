@@ -2,26 +2,38 @@
 % Please edit documentation in R/poker.R
 \name{assignToPlayers}
 \alias{assignToPlayers}
-\title{Function: 	assignToPlayers}
+\title{assignToPlayers}
 \usage{
 assignToPlayers(nPlayers, position, y)
 }
+\arguments{
+\item{nPlayers}{number of hands to deal as
+integer in \{2, ... , 9\}}
+
+\item{position}{dealer position as    integer in \{2, ..., nPlayers\}}
+
+\item{y}{cards dealt as                    vector[2*nPlayers+5] in \{1, 2, ..., 52\}}
+}
+\value{
+\tabular{ll}{players :	the hole cards in absolute position \tab
+											as matrix[nPlayers, 4] in \{1, 2, ..., 52\} \cr \tab
+											col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+											col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
+											col3: rank of card 2 \cr \tab
+											col4: suit of card 2}
+}
 \description{
-Author: Ben Greenspan		
-Created: May/June 2010
-Description:	standard normal deal: begin the deal starting at the left of the dealer.
-Inputs:		@param nPlayers : number of hands to deal 
-											#integer in {1, 2, ... , 8}
-			position : dealer position 	#integer in {1, 2, ..., nPlayers}
-			@param y : cards dealt					#vector[2*nPlayers+5] in {1, 2, ..., 52}
-Locals:		i : for name in vector
-											#numeric in vector
-			k : for name in vector
-											#numeric in vector
-Outputs:		@return players :	the hole cards in absolute position
-											#matrix[nPlayers, 4]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
+A standard deal situation beginnng the deal at the left of the dealer. \cr
+}
+\details{
+Locals: \cr
+i : for name in vector as
+											numeric in vector \cr
+			k : for name in vector as
+											numeric in vector
+}
+\examples{
+assignToPlayers(9,9,1:23)
+assignToPlayers(9,1,1:23)
+assignToPlayers(9,1,c(1:17,24,48:52))
 }

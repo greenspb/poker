@@ -2,38 +2,48 @@
 % Please edit documentation in R/poker.R
 \name{dotFullHouseRanker}
 \alias{dotFullHouseRanker}
-\title{Function: 	dotFullHouseRanker}
+\title{dotFullHouseRanker}
 \usage{
 dotFullHouseRanker(oneHand)
 }
+\arguments{
+\item{oneHand}{\tabular{ll}{the ranks of one 7 card hand as
+vector[7] \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: rank of card 2 \cr \tab
+. \cr \tab
+. \cr \tab
+. \cr \tab
+col7: rank of card 7}}
+}
+\value{
+\tabular{ll}{fullHouseRank : the ranks of the high set and the high pair as
+											vector \tab \cr \tab
+											col1: the rank of the top set \cr \tab
+											col2: the rank of the top pair}
+}
 \description{
-Author: Ben Greenspan		
-Created: December 15, 2010
-Description:	returns the rank of the top set and the top pair
-Inputs:		@param oneHand : the ranks of one 7 card hand
-											#vector[7]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: rank of card 2
-											#.
-											#.
-											#.
-											#col7: rank of card 7
-Locals:		values : the unique values of equal ranks
-											#vector
-											#col1: top unique rank
-											#.
-											#.
-											#.
-											#coln: bottom unique rank
-			lengths : the lengths of equal ranks
-											#vector
-											#col1: length of top rank
-											#.
-											#.
-											#.
-											#coln: length of bottom rank
-Outputs:		@return fullHouseRank : the ranks of the high set and the high pair
-											#vector
-											#col1: the rank of the top set
-											#col2: the rank of the top pair
+Determines the rank of the top set and the top pair. \cr
+}
+\details{
+Locals: \cr
+\tabular{ll}{values : the unique values of equal ranks as
+											vector \tab \cr \tab
+											col1: top unique rank \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											coln: bottom unique rank} \cr
+\tabular{ll}{lengths : the lengths of equal ranks as
+											vector \tab \cr \tab
+											col1: length of top rank \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											coln: length of bottom rank} \cr
+}
+\examples{
+dotFullHouseRanker(c(2,2,2,5,5,8,9))
+dotFullHouseRanker(c(2,2,5,5,5,8,9))
+dotFullHouseRanker(c(2,2,5,5,5,8,8))
 }

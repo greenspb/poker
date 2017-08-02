@@ -2,19 +2,29 @@
 % Please edit documentation in R/poker.R
 \name{transformToAbsolute}
 \alias{transformToAbsolute}
-\title{Function: 	transformToAbsolute}
+\title{transformToAbsolute}
 \usage{
 transformToAbsolute(nPlayers, position, k)
 }
+\arguments{
+\item{nPlayers}{number of hands to deal as
+integer in \{2, ... , 9\}}
+
+\item{position}{dealer position as        integer in \{2, ..., nPlayers\}}
+
+\item{k}{relative position of a player as
+integer in \{1, 2, ... , nPlayers\}}
+}
+\value{
+j : absolute position of a player as
+											integer in \{1, 2, ... , nPlayers\}
+}
 \description{
-Author: Ben Greenspan		
-Created: May/June 2010
-Description:	transforms a relative position (seats behind the dealer) into an absolute position (seat at the table) 
-Inputs:		@param nPlayers : number of hands to deal 
-											#integer in {1, 2, ... , 8}
-			@param position : dealer position 		#integer in {1, 2, ..., nPlayers}
-			@param k : relative position of a player
-											#integer in {1, 2, ... , nPlayers} 
-Outputs:		@return j : absolute position of a player
-											#integer in {1, 2, ... , nPlayers}
+Transforms a relative position (i.e., seats behind the dealer) into an absolute position (i.e., seat at the table) \cr
+}
+\examples{
+transformToAbsolute(9,9,0)
+transformToAbsolute(9,9,8)
+transformToAbsolute(9,1,8)
+transformToAbsolute(9,5,6)
 }

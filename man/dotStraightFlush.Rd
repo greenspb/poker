@@ -2,86 +2,59 @@
 % Please edit documentation in R/poker.R
 \name{dotStraightFlush}
 \alias{dotStraightFlush}
-\title{Function: 	dotStraightFlush
-Author: Ben Greenspan		
-Created: December 14, 2010
-Description:	determines the player with the highest straight flush
-Inputs:		@param cards : the 7 card hand
-											#matrix[nPlayers, 14]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
-											#.
-											#.
-											#.
-											#col13: rank of card 7
-											#col14: suit of card 7
-			@param score : the score of the hand in absolute terms
-											#vector[nPlayers]
-											# 9 = Straight Flush
-											# 8 = Four of a Kind
-											# 7 = Full House
-											# 6 = Flush
-											# 5 = Straight
-											# 4 = Three of a Kind
-											# 3 = Two Pair
-											# 2 = One Pair
-											# 1 = High Card
-Locals:		ranks : the indices for rank	#vector
-			temp : a copy of cards with ranks only
-											#matrix[nPlayers, 7]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: rank of card 2
-											#.
-											#.
-											#.
-											#col7: rank of card 7
-			maxStraight : the high card in each straight
-											#vector[nPlayers]
-Outputs:		@return winner : absolute position of the winner
-											#vector}
+\title{dotStraightFlush}
 \usage{
 dotStraightFlush(nPlayers, cards, score)
 }
+\arguments{
+\item{nPlayers}{number of hands as            integer in \{2, ... , 9\}}
+
+\item{cards}{\tabular{ll}{the 7 card hand as
+matrix[nPlayers, 14] \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
+col3: rank of card 2 \cr \tab
+col4: suit of card 2 \cr \tab
+. \cr \tab
+. \cr \tab
+. \cr \tab
+col13: rank of card 7 \cr \tab
+col14: suit of card 7}}
+
+\item{score}{\tabular{ll}{the score of the hand in absolute terms as
+vector[nPlayers] \tab \cr \tab
+ 9 = Straight Flush \cr \tab
+ 8 = Four of a Kind \cr \tab
+ 7 = Full House \cr \tab
+ 6 = Flush \cr \tab
+ 5 = Straight \cr \tab
+ 4 = Three of a Kind \cr \tab
+ 3 = Two Pair \cr \tab
+ 2 = One Pair \cr \tab
+ 1 = High Card}}
+}
+\value{
+winner : absolute position of the winner as
+											vector
+}
 \description{
-Function: 	dotStraightFlush
-Author: Ben Greenspan		
-Created: December 14, 2010
-Description:	determines the player with the highest straight flush
-Inputs:		@param cards : the 7 card hand
-											#matrix[nPlayers, 14]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
-											#.
-											#.
-											#.
-											#col13: rank of card 7
-											#col14: suit of card 7
-			@param score : the score of the hand in absolute terms
-											#vector[nPlayers]
-											# 9 = Straight Flush
-											# 8 = Four of a Kind
-											# 7 = Full House
-											# 6 = Flush
-											# 5 = Straight
-											# 4 = Three of a Kind
-											# 3 = Two Pair
-											# 2 = One Pair
-											# 1 = High Card
-Locals:		ranks : the indices for rank	#vector
-			temp : a copy of cards with ranks only
-											#matrix[nPlayers, 7]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: rank of card 2
-											#.
-											#.
-											#.
-											#col7: rank of card 7
-			maxStraight : the high card in each straight
-											#vector[nPlayers]
-Outputs:		@return winner : absolute position of the winner
-											#vector
+Determine the player with the highest straight flush.
+}
+\details{
+Locals: \cr
+ranks : the indices for rank	as vector \cr
+\tabular{ll}{temp : a copy of cards with ranks only as
+											matrix[nPlayers, 7] \tab \cr \tab
+											col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+											col2: rank of card 2 \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											col7: rank of card 7} \cr
+maxStraight : the high card in each straight as
+											vector[nPlayers] \cr
+}
+\examples{
+dotStraightFlush(3,matrix(c(8,13,5,1,1,4,6,2,2,2,3,4,14,14,14,2,2,2,9,9,9,1,1,1,10,10,10,1,1,1,11,11,11,1,1,1,12,12,12,1,1,1),byrow=FALSE,nrow=3,ncol=14),c(9,9,1))
+dotStraightFlush(2,matrix(c(1,1,3,4,2,2,3,4,8,8,1,1,9,9,1,1,10,10,1,1,11,11,1,1,12,12,1,1),byrow=FALSE,nrow=2,ncol=14),c(9,9))
 }

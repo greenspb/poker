@@ -2,26 +2,35 @@
 % Please edit documentation in R/poker.R
 \name{dotHighcardCompare}
 \alias{dotHighcardCompare}
-\title{Function: 	dotHighcardCompare}
+\title{dotHighcardCompare}
 \usage{
 dotHighcardCompare(rankMatrix)
 }
+\arguments{
+\item{rankMatrix}{\tabular{ll}{the ranks from the 7 card hand as
+matrix[nPlayers, 7] \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: rank of card 2 \cr \tab
+. \cr \tab
+. \cr \tab
+. \cr \tab
+col7: rank of card 7}}
+}
+\value{
+winner : absolute position of the winner as
+											vector
+}
 \description{
-Author: Ben Greenspan		
-Created: December 17, 2010
-Description:	determines the players with the high card
-Inputs:		@param rankMatrix : the ranks from the 7 card hand
-											#matrix[nPlayers, 7]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: rank of card 2
-											#.
-											#.
-											#.
-											#col7: rank of card 7
-Locals:		step : the step for comparison of highest card
-											#integer
-			Tie : the positions of the players with Tied highest cards
-											#vector
-Outputs:		@return winner : absolute position of the winner
-											#vector
+Determines the players with the high card. \cr
+}
+\details{
+Locals: \cr
+step : the step for comparison of highest card as
+											integer \cr
+			Tie : the positions of the players with Tied highest cards as
+											vector \cr
+}
+\examples{
+dotHighcardCompare(matrix(c(2,4,5,6,7,13,14,2,3,5,6,7,13,14),2,7,byrow=TRUE))
+dotHighcardCompare(matrix(c(2,3,5,6,7,13,14,2,3,5,6,7,13,14),2,7,byrow=TRUE))
 }

@@ -2,42 +2,53 @@
 % Please edit documentation in R/poker.R
 \name{dotFlush}
 \alias{dotFlush}
-\title{Function: 	dotFlush}
+\title{dotFlush}
 \usage{
 dotFlush(cards, score)
 }
+\arguments{
+\item{cards}{\tabular{ll}{the 7 card hand as
+matrix[nPlayers, 14] \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
+col3: rank of card 2 \cr \tab
+col4: suit of card 2 \cr \tab
+. \cr \tab
+. \cr \tab
+. \cr \tab
+col13: rank of card 7 \cr \tab
+col14: suit of card 7}}
+
+\item{score}{\tabular{ll}{the score of the hand in absolute terms as
+vector[nPlayers] \tab \cr \tab
+ 9 = Straight Flush \cr \tab
+ 8 = Four of a Kind \cr \tab
+ 7 = Full House \cr \tab
+ 6 = Flush \cr \tab
+ 5 = Straight \cr \tab
+ 4 = Three of a Kind \cr \tab
+ 3 = Two Pair \cr \tab
+ 2 = One Pair \cr \tab
+ 1 = High Card}}
+}
+\value{
+winner : absolute position of the winner as
+											vector
+}
 \description{
-Author: Ben Greenspan		
-Created: December 14, 2010
-Updated: December 17, 2010
-Description:	determines the player with the highest flush
-Inputs:		@param cards : the 7 card hand
-											#matrix[nPlayers, 14]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
-											#.
-											#.
-											#.
-											#col13: rank of card 7
-											#col14: suit of card 7
-			@param score : the score of the hand in absolute terms
-											#vector[nPlayers]
-											# 9 = Straight Flush
-											# 8 = Four of a Kind
-											# 7 = Full House
-											# 6 = Flush
-											# 5 = Straight
-											# 4 = Three of a Kind
-											# 3 = Two Pair
-											# 2 = One Pair
-											# 1 = High Card
-Locals:	flushRank : the rank of 5 high cards in flush
-											#matrix[nPlayers,5]
-											#col1: suit of card 1 in {2, ... , 14}
-											#.
-											#.
-											#.
-											#col5: suit of card n in {2, ... , 14}
+Determines the player with the highest flush. \cr
+}
+\details{
+Locals: \cr
+\tabular{ll}{flushRank : the rank of 5 high cards in flush as
+											vector[5] \tab \cr \tab
+											col1: suit of card 1 in \{2, ... , 14\} \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											col5: suit of card n in \{2, ... , 14\}}
+}
+\examples{
+dotFlush(matrix(c(2,1,3,3,5,2,6,3,7,3,13,3,14,3,2,3,3,4,5,1,6,3,7,3,13,3,14,3),2,14,byrow=TRUE),c(6,6))
+dotFlush(matrix(c(2,1,3,3,5,3,6,3,7,3,13,3,14,3,2,3,3,4,5,3,6,3,7,3,13,3,14,3),2,14,byrow=TRUE),c(6,6))
 }

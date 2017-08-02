@@ -2,14 +2,20 @@
 % Please edit documentation in R/poker.R
 \name{assignToBoard}
 \alias{assignToBoard}
-\title{Function: 	assignToBoard}
+\title{assignToBoard}
 \usage{
 assignToBoard(y)
 }
+\arguments{
+\item{y}{cards dealt as                    vector[2*nPlayers+3] in \{1, 2, ..., 52\}}
+}
+\value{
+board :	the board cards	as		vector[5] in \{1, 2, ..., 52\}
+}
 \description{
-Author: Ben Greenspan		
-Created: May/June 2010
-Description:	deal 3 community cards 
-Inputs:		@param y : cards dealt					#vector[2*nPlayers+3] in {1, 2, ..., 52}
-Outputs:		@return board :	the board cards			#vector[5] in {1, 2, ..., 52}
+Deal 3 community cards. \cr
+}
+\examples{
+assignToBoard(1:23)
+assignToBoard(c(1:17,24,48:52))
 }

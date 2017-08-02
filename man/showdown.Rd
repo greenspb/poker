@@ -2,30 +2,34 @@
 % Please edit documentation in R/poker.R
 \name{showdown}
 \alias{showdown}
-\title{Function: 	showdown}
+\title{showdown}
 \usage{
 showdown(cards)
 }
+\arguments{
+\item{cards}{\tabular{ll}{the 7 card hand as 
+matrix[nPlayers, 14]  \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
+col3: rank of card 2 \cr \tab
+col4: suit of card 2}}
+}
+\value{
+\tabular{ll}{score : the score of the hand in absolute terms as
+											vector[nPlayers] \tab \cr \tab
+											 9 = Straight Flush \cr \tab
+											 8 = Four of a Kind \cr \tab
+											 7 = Full House \cr \tab
+											 6 = Flush \cr \tab
+											 5 = Straight \cr \tab
+											 4 = Three of a Kind \cr \tab
+											 3 = Two Pair \cr \tab
+											 2 = One Pair \cr \tab
+											 1 = High Card}
+}
 \description{
-Author: Ben Greenspan		
-Created: December 15, 2010
-Description:	returns the ranking of the hands
-Inputs: 		@param cards :	the 7 card hand
-											#matrix[nPlayers, 14]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
-Locals:				
-Outputs: 	#score : the score of the hand in absolute terms
-											#vector[nPlayers]
-											# 9 = Straight Flush
-											# 8 = Four of a Kind
-											# 7 = Full House
-											# 6 = Flush
-											# 5 = Straight
-											# 4 = Three of a Kind
-											# 3 = Two Pair
-											# 2 = One Pair
-											# 1 = High Card
+Determine the ranking of the hands. \cr
+}
+\examples{
+showdown(matrix( c( 2,1,3,2,5,3,6,4,7,1,13,2,14,2,2,3,2,4,5,1,6,2,7,3,13,4,14,4),2,14,byrow=TRUE))
 }

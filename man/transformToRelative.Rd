@@ -2,19 +2,29 @@
 % Please edit documentation in R/poker.R
 \name{transformToRelative}
 \alias{transformToRelative}
-\title{Function: 	transformToRelative}
+\title{transformToRelative}
 \usage{
 transformToRelative(nPlayers, position, j)
 }
+\arguments{
+\item{nPlayers}{number of hands to deal as
+integer in \{2, ... , 9\}}
+
+\item{position}{dealer position as        integer in \{2, ..., nPlayers\}}
+
+\item{j}{absolute position of a player as
+integer in \{1, 2, ... , nPlayers\}}
+}
+\value{
+k : relative position of a player as
+											integer in \{1, 2, ... , nPlayers\}
+}
 \description{
-Author: Ben Greenspan		
-Created: May/June 2010
-Description:	transforms an absolute (seat at the table) position into a relative (seats behind the dealer) position
-Inputs:		@param nPlayers : number of hands to deal 
-											#integer in {1, 2, ... , 8}
-			@param position : dealer position 		#integer in {1, 2, ..., nPlayers}
-			@param j : absolute position of a player
-											#integer in {1, 2, ... , nPlayers}
-Outputs:		@return k : relative position of a player
-											#integer in {1, 2, ... , nPlayers}
+Transforms an absolute position (i.e., seat at the table) into a relative position (i.e., seats behind the dealer)
+}
+\examples{
+transformToRelative(9,9,9)
+transformToRelative(9,9,8)
+transformToRelative(9,1,9)
+transformToRelative(9,5,2)
 }

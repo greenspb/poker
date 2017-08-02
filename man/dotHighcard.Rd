@@ -2,39 +2,47 @@
 % Please edit documentation in R/poker.R
 \name{dotHighcard}
 \alias{dotHighcard}
-\title{Function: 	dotHighcard}
+\title{dotHighcard}
 \usage{
 dotHighcard(cards)
 }
+\arguments{
+\item{cards}{\tabular{ll}{ the 7 card hand as
+matrix[nPlayers, 14] \tab \cr \tab
+col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
+col3: rank of card 2 \cr \tab
+col4: suit of card 2 \cr \tab
+. \cr \tab
+. \cr \tab
+. \cr \tab
+col13: rank of card 7 \cr \tab
+col14: suit of card 7}}
+}
+\value{
+winner : absolute position of the winner as
+											vector
+}
 \description{
-Author: Ben Greenspan		
-Created: December 14, 2010
-Updated: December 17, 2010
-Description:	determines the players with a high card hand
-Inputs:		@param cards : the 7 card hand
-											#matrix[nPlayers, 14]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: suit of card 1 in {1, 2, 3, 4}
-											#col3: rank of card 2
-											#col4: suit of card 2
-											#.
-											#.
-											#.
-											#col13: rank of card 7
-											#col14: suit of card 7
-Locals:		ranks : the indices for rank	#vector
-			temp : a copy of cards with ranks only
-											#matrix[nPlayers, 7]
-											#col1: rank of card 1 in {2, ... , 14}
-											#col2: rank of card 2
-											#.
-											#.
-											#.
-											#col7: rank of card 7
-			step : the step for comparison of highest card
-											#integer
-			Tie : the positions of the players with Tied highest cards
-											#vector
-Outputs:		@return winner : absolute position of the winner
-											#vector
+Determines the players with a high card hand. \cr
+}
+\details{
+Locals: \cr
+ranks : the indices for rank as	vector \cr
+			\tabular{ll}{temp : a copy of cards with ranks only as
+											matrix[nPlayers, 7] \tab \cr \tab
+											col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+											col2: rank of card 2 \cr \tab
+											. \cr \tab
+											. \cr \tab
+											. \cr \tab
+											col7: rank of card 7} \cr
+			step : the step for comparison of highest card as
+											integer \cr
+			Tie : the positions of the players with Tied highest cards as 
+											vector \cr
+}
+\examples{
+dotHighcard(matrix(c(2,1,14,2,5,3,6,4,7,1,13,2,14,3,2,3,3,4,5,1,6,2,7,3,13,4,14,1),2,14,byrow=TRUE))
+dotHighcard(matrix(c(2,1,3,2,5,3,6,4,7,1,13,2,14,3,2,3,3,4,5,1,6,2,7,3,13,4,14,1),2,14,byrow=TRUE))
 }

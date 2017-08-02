@@ -2,20 +2,31 @@
 % Please edit documentation in R/poker.R
 \name{dotTestDealer}
 \alias{dotTestDealer}
-\title{Function: 	dotTestDealer}
+\title{dotTestDealer}
 \usage{
 dotTestDealer(nPlayers, position, holeCards)
 }
+\arguments{
+\item{nPlayers}{number of hands to deal as 
+integer in \{2, ... , 9\}}
+
+\item{position}{dealer position     as integer in \{2, ..., nPlayers\}}
+
+\item{holeCards}{the hand of player 1 as vector[2] in \{1, 2, ..., 52\}}
+}
+\value{
+y : cards dealt in hole as		vector[nCards] in \{1, 2, ..., 52\}
+}
 \description{
-Author: Ben Greenspan		
-Created: December 19, 2010
-Description:	assume player 1 already has cards.  for remaining players, 
-			generate Player+Community cards = 2x(nPlayers-1)+5
-Inputs:		@param nPlayers : number of hands to deal 
-											#integer in {1, 2, ... , 8}
-			@param position : dealer position 	#integer in {1, 2, ..., nPlayers}
-			@param holeCards : the hand of player 1
-Locals:		nCards : number of cards dealt to players
-											#integer in {4, 6, 8, ... 16}
-Outputs:		@return y : cards dealt in hole			#vector[nCards] in {1, 2, ..., 52}
+Assume player 1 already has cards.  For remaining players, generate Player+Community cards = 2x(nPlayers-1)+5 cards. \cr
+}
+\details{
+Locals: \cr
+nCards : number of cards dealt to players as
+											integer in \{4, 6, 8, ... , 18\} \cr
+}
+\examples{
+dotTestDealer(9,9,c(1,52))
+dotTestDealer(9,5,c(1,52))
+dotTestDealer(5,2,c(3,42))
 }

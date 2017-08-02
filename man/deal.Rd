@@ -2,18 +2,27 @@
 % Please edit documentation in R/poker.R
 \name{deal}
 \alias{deal}
-\title{Function: 	deal}
+\title{deal}
 \usage{
 deal(nPlayers, position)
 }
+\arguments{
+\item{nPlayers}{number of hands to deal as 
+integer in \{2, ... , 9\}}
+
+\item{position}{dealer position         as integer in \{2, ..., nPlayers\}}
+}
+\value{
+y : cards dealt in hole			as vector[nCards] in \{1, 2, ..., 52\}
+}
 \description{
-Author: Ben Greenspan		
-Created: May/June 2010
-Description:	generate Player+Community cards = 2x(nPlayers)+5
-Inputs:		@param nPlayers : number of hands to deal 
-											#integer in {1, 2, ... , 8}
-			@param position : dealer position 	#integer in {1, 2, ..., nPlayers}
-Locals:		nCards : number of cards dealt to players
-											#integer in {4, 6, 8, ... 16}
-Outputs:		@return y : cards dealt in hole			#vector[nCards] in {1, 2, ..., 52}
+Generate Player+Community cards = 2x(nPlayers)+5 cards. \cr
+}
+\details{
+Locals: \cr
+nCards : number of cards dealt to players as integer in \{4, 6, 8, ... 16\}
+}
+\examples{
+deal(9,9)
+deal(9,1)
 }

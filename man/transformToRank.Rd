@@ -2,24 +2,32 @@
 % Please edit documentation in R/poker.R
 \name{transformToRank}
 \alias{transformToRank}
-\title{Function: 	transformToRank}
+\title{transformToRank}
 \usage{
 transformToRank(y)
 }
+\arguments{
+\item{y}{number corresponding to card as
+integer in \{1, 2, ... , 52\} \cr}
+}
+\value{
+\tabular{ll}{rank: rank of card y as  
+											integer in \{2, ... , 14\} \tab \cr \tab
+											 2 = deuce \cr \tab
+											 . \cr \tab
+											 . \cr \tab
+											 . \cr \tab
+											 11 = jack \cr \tab
+											 12 = queen \cr \tab
+											 13 = king \cr \tab
+											 14 = ace}
+}
 \description{
-Author: Ben Greenspan		
-Created: May/June 2010
-Description:	transforms a number into a rank
-Inputs:		@param y : number corresponding to card
-											#integer in {1, 2, ... , 52}
-Outputs:		@return rank: rank of card y 
-											#integer in {2, ... , 14}
-											# 2 = deuce
-											# .
-											# .
-											# .
-											# 11 = jack
-											# 12 = queen
-											# 13 = king
-											# 14 = ace
+Determines the rank of a card. \cr
+}
+\examples{
+transformToRank(1)
+transformToRank(13)
+transformToRank(14)
+transformToRank(26)
 }
