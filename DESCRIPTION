@@ -1,10 +1,10 @@
 Package: poker
 Title: Play Texas Hold Em Poker in R
-Version: 0.5.0.9000
+Version: 0.5.1.9000
 Date: 2017-07-31
 Author: Benjamin Greenspan [aut,cre]
 Maintainer: Benjamin Greenspan <Benjamin.Greenspan@gmail.com>
-Description: Type "testRoundOfPoker()" for a demonstration round of Texas Hold ‘Em poke.  Rotates the dealer button, deals cards, ranks each hand, compares ranks, breaks ties (if necessary), determines the winner, outputs a textual summary, and outputs a graphical user interface.
+Description: Type "testRoundOfPoker()" for a demonstration round of Texas Hold ‘Em poker.  Rotates the dealer button, deals cards, ranks each hand, compares ranks, breaks ties (if necessary), determines the winner, outputs a textual summary, and outputs a graphical user interface.
 Depends: 
 License: GPL-2
 Encoding: UTF-8
