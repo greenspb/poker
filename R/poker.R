@@ -56,13 +56,13 @@ testRoundOfPoker <- function() {
 	winner <- tiebreaker(nPlayers,cards,score)
 
 	round <- 1
-	CGIplayers(round, alias, position, cards, score)
+	cgiPlayers(round, alias, position, cards, score)
 	round <- 2
-	CGIplayers(round, alias, position, cards, score)
+	cgiPlayers(round, alias, position, cards, score)
 	round <- 3
-	CGIplayers(round, alias, position, cards, score)
+	cgiPlayers(round, alias, position, cards, score)
 	round <- 4
-	CGIplayers(round, alias, position, cards, score)
+	cgiPlayers(round, alias, position, cards, score)
 
 	cat("Please look at the graphics window to see the current hand.\n\nThe score of each player is one of the following:\n\t9 = Straight Flush\n\t8 = Four of a Kind\n\t7 = Full House\n\t6 = Flush\n\t5 = Straight\n\t4 = Three of a Kind\n\t3 = Two Pair\n\t2 = Pair\n\t1 = Highcard\nThe scores for this hand are:\n\tPlayer 1: ",score[1],"\n\tPlayer 2: ",score[2],"\n\tPlayer 3: ",score[3],"\n\tPlayer 4: ",score[4],"\n\tPlayer 5: ",score[5],"\n\tPlayer 6: ",score[6],"\n\tPlayer 7: ",score[7],"\n\tPlayer 8: ",score[8],"\n\tPlayer 9: ",score[9],".\nThe winners of this hand are Players",winner,".\n\nThank you for playing.")
 }
@@ -190,7 +190,7 @@ assignToBoard <- function(y) {
 #'										numeric in vector \cr
 #'j : index for hole cards as
 #'												numeric in vector
-#'@param players \tabular{ll}{the hole cards as			matrix[nPlayers, 4] \tab \cr \tab
+#'@param players : \tabular{ll}{the hole cards as			matrix[nPlayers, 4] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
 #'												col3: rank of card 2 \cr \tab
@@ -290,7 +290,7 @@ dotTransformToSuit <- function(y) {
 #'
 #'Determine the card from a rank and suit.
 #'
-#'@param rank \tabular{ll}{rank of card y as  
+#'@param rank : \tabular{ll}{rank of card y as  
 #'												integer in \{2, ... , 14\} \tab \cr \tab
 #'												 2 = deuce \cr \tab
 #'												 . \cr \tab
@@ -300,7 +300,7 @@ dotTransformToSuit <- function(y) {
 #'												 12 = queen \cr \tab
 #'												 13 = king \cr \tab
 #'												 14 = ace}
-#'@param suit \tabular{ll}{suit of card y as
+#'@param suit : \tabular{ll}{suit of card y as
 #'												integer in \{1, 2, 3, 4\} \tab \cr \tab
 #'												 1 = spade \cr \tab
 #'												 2 = club \cr \tab
@@ -425,7 +425,7 @@ dotTransformToAbsolute <- function(nPlayers, position, k) {
 #'												col7: the number of card 7} \cr
 #'				straightFlushCounter : a counter for the number of sequential cards of the same rank as
 #'												integer
-#'@param cardsRow \tabular{ll}{one 7 card hand as
+#'@param cardsRow : \tabular{ll}{one 7 card hand as
 #'												vector[14] \tab  \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -554,7 +554,7 @@ dotScorer <- function(cardsRow) {
 #'
 #'Determine the ranking of the hands.
 #'
-#'@param cards \tabular{ll}{the 7 card hand as 
+#'@param cards : \tabular{ll}{the 7 card hand as 
 #'												matrix[nPlayers, 14]  \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -589,7 +589,7 @@ showdown <- function(cards) {
 #'												integer \cr
 #'				Tie : the positions of the players with Tied highest cards as
 #'												vector \cr
-#'@param rankMatrix \tabular{ll}{the ranks from the 7 card hand as
+#'@param rankMatrix : \tabular{ll}{the ranks from the 7 card hand as
 #'												matrix[nPlayers, 7] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: rank of card 2 \cr \tab
@@ -639,7 +639,7 @@ dotHighcardCompare <- function(rankMatrix) {
 #'												integer \cr
 #'				Tie : the positions of the players with Tied highest cards as 
 #'												vector
-#'@param cards \tabular{ll}{ the 7 card hand as
+#'@param cards : \tabular{ll}{ the 7 card hand as
 #'												matrix[nPlayers, 14] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -686,7 +686,7 @@ dotHighcard <- function(cards) {
 #'												col1: length of lowest rank \cr \tab
 #'												. \cr \tab
 #'												.}
-#'@param oneHand \tabular{ll}{a sorted hand with ranks only as
+#'@param oneHand : \tabular{ll}{a sorted hand with ranks only as
 #'												vector[7] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: rank of card 2 \cr \tab
@@ -733,7 +733,7 @@ dotPairRanker <- function(oneHand) {
 #'				Tie : the positions of the players with Tied kicker cards as
 #'												vector
 #'@param nPlayers number of hands as		integer in \{2, ... , 9\}
-#'@param cards \tabular{ll}{the 7 card hands as
+#'@param cards : \tabular{ll}{the 7 card hands as
 #'												matrix[nPlayers, 14] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -744,7 +744,7 @@ dotPairRanker <- function(oneHand) {
 #'												. \cr \tab
 #'												col13: rank of card 7 \cr \tab
 #'												col14: suit of card 7}
-#'@param score \tabular{ll}{the score of the hands in absolute terms as
+#'@param score : \tabular{ll}{the score of the hands in absolute terms as
 #'												vector[nPlayers] \tab \cr \tab
 #'												 9 = Straight Flush \cr \tab
 #'												 8 = Four of a Kind \cr \tab
@@ -810,7 +810,7 @@ dotPair <- function(nPlayers,cards,score) {
 #'												col1: length of lowest rank \cr \tab
 #'												. \cr \tab
 #'												.}
-#'@param oneHand \tabular{ll}{a sorted hand with ranks only as
+#'@param oneHand : \tabular{ll}{a sorted hand with ranks only as
 #'												vector[7] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: rank of card 2 \cr \tab
@@ -859,7 +859,7 @@ dotTwoPairRanker <- function(oneHand) {
 #'				kicker : the two highest unpaired cards as
 #'												matrix[nPlayers,2]
 #'@param nPlayers number of hands as		integer in \{2, ... , 9\}
-#'@param cards \tabular{ll}{the 7 card hand as
+#'@param cards : \tabular{ll}{the 7 card hand as
 #'												matrix[nPlayers, 14] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -870,7 +870,7 @@ dotTwoPairRanker <- function(oneHand) {
 #'												. \cr \tab
 #'												col13: rank of card 7 \cr \tab
 #'												col14: suit of card 7}
-#'@param score \tabular{ll}{the score of the hand in absolute terms as
+#'@param score : \tabular{ll}{the score of the hand in absolute terms as
 #'												vector[nPlayers] \tab \cr \tab
 #'												 9 = Straight Flush \cr \tab
 #'												 8 = Four of a Kind \cr \tab
@@ -934,7 +934,7 @@ dotTwoPairs <- function(nPlayers,cards,score) {
 #'												col1: length of lowest rank \cr \tab
 #'												. \cr \tab
 #'												.}
-#'@param oneHand \tabular{ll}{a sorted hand with ranks only as
+#'@param oneHand : \tabular{ll}{a sorted hand with ranks only as
 #'												vector[7] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: rank of card 2 \cr \tab
@@ -978,7 +978,7 @@ dotTripRanker <- function(oneHand) {
 #'				kickers : the two highest unpaired cards as
 #'												matrix[nPlayers,2]
 #'@param nPlayers number of hands as		integer in \{2, ... , 9\}
-#'@param cards \tabular{ll}{the 7 card hand as
+#'@param cards : \tabular{ll}{the 7 card hand as
 #'												matrix[nPlayers, 14] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -989,7 +989,7 @@ dotTripRanker <- function(oneHand) {
 #'												. \cr \tab
 #'												col13: rank of card 7 \cr \tab
 #'												col14: suit of card 7}
-#'@param score \tabular{ll}{the score of the hand in absolute terms as
+#'@param score : \tabular{ll}{the score of the hand in absolute terms as
 #'												vector[nPlayers] \tab \cr \tab
 #'												 9 = Straight Flush \cr \tab
 #'												 8 = Four of a Kind \cr \tab
@@ -1044,7 +1044,7 @@ dotTrips <- function(nPlayers,cards,score) {
 #'Locals: \cr		
 #'k : length of unique ranks as		integer in \{2, 3, ... , 7\} \cr
 #'				counter : number of cards in a consecutive sequence
-#'@param oneHand \tabular{ll}{a sorted hand with ranks only as
+#'@param oneHand : \tabular{ll}{a sorted hand with ranks only as
 #'												vector[7] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: rank of card 2 \cr \tab
@@ -1097,7 +1097,7 @@ dotStraightRanker <- function(oneHand) {
 #'												col7: rank of card 7} \cr
 #'				maxStraight : the high card in each straight as
 #'												vector[nPlayers]
-#'@param cards \tabular{ll}{the 7 card hand as
+#'@param cards : \tabular{ll}{the 7 card hand as
 #'												matrix[nPlayers, 14] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -1108,7 +1108,7 @@ dotStraightRanker <- function(oneHand) {
 #'												. \cr \tab
 #'												col13: rank of card 7 \cr \tab
 #'												col14: suit of card 7}
-#'@param score \tabular{ll}{the score of the hand in absolute terms as
+#'@param score : \tabular{ll}{the score of the hand in absolute terms as
 #'												vector[nPlayers] \tab \cr \tab
 #'												 9 = Straight Flush \cr \tab
 #'												 8 = Four of a Kind \cr \tab
@@ -1176,7 +1176,7 @@ dotStraight <- function(cards,score) {
 #'												. \cr \tab
 #'												. \cr \tab
 #'												coln: index in \{1,2,...,7\}}
-#'@param cardsRow \tabular{ll}{one 7 card hand as
+#'@param cardsRow : \tabular{ll}{one 7 card hand as
 #'												vector[14] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -1231,7 +1231,7 @@ dotFlushRanker <- function(cardsRow){
 #'												. \cr \tab
 #'												. \cr \tab
 #'												col5: suit of card n in \{2, ... , 14\}}
-#'@param cards \tabular{ll}{the 7 card hand as
+#'@param cards : \tabular{ll}{the 7 card hand as
 #'												matrix[nPlayers, 14] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -1242,7 +1242,7 @@ dotFlushRanker <- function(cardsRow){
 #'												. \cr \tab
 #'												col13: rank of card 7 \cr \tab
 #'												col14: suit of card 7}
-#'@param score \tabular{ll}{the score of the hand in absolute terms as
+#'@param score : \tabular{ll}{the score of the hand in absolute terms as
 #'												vector[nPlayers] \tab \cr \tab
 #'												 9 = Straight Flush \cr \tab
 #'												 8 = Four of a Kind \cr \tab
@@ -1290,7 +1290,7 @@ dotFlush <- function(cards,score) {
 #'												. \cr \tab
 #'												. \cr \tab
 #'												coln: length of bottom rank} \cr
-#'@param oneHand \tabular{ll}{the ranks of one 7 card hand as
+#'@param oneHand : \tabular{ll}{the ranks of one 7 card hand as
 #'												vector[7] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: rank of card 2 \cr \tab
@@ -1360,7 +1360,7 @@ dotFullHouseRanker <- function(oneHand) {
 #'												matrix[nPlayers,2] \tab \cr \tab
 #'												col1: rank of high set \cr \tab
 #'												col2: rank of high pair}
-#'@param cards \tabular{ll}{the 7 card hand as
+#'@param cards : \tabular{ll}{the 7 card hand as
 #'												matrix[nPlayers, 14] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -1371,7 +1371,7 @@ dotFullHouseRanker <- function(oneHand) {
 #'												. \cr \tab
 #'												col13: rank of card 7 \cr \tab
 #'												col14: suit of card 7}
-#'@param score \tabular{ll}{the score of the hand in absolute terms as
+#'@param score : \tabular{ll}{the score of the hand in absolute terms as
 #'												vector[nPlayers] \tab \cr \tab
 #'												 9 = Straight Flush \cr \tab
 #'												 8 = Four of a Kind \cr \tab
@@ -1433,7 +1433,7 @@ dotFullHouse <- function(cards,score) {
 #'												. \cr \tab
 #'												. \cr \tab
 #'												coln: length of lowest rank}
-#'@param oneHand \tabular{ll}{the ranks of one 7 card hand as
+#'@param oneHand : \tabular{ll}{the ranks of one 7 card hand as
 #'												vector[7] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: rank of card 2 \cr \tab
@@ -1486,7 +1486,7 @@ dotFourOfAKindRanker <- function(oneHand) {
 #'												col1: rank of high set \cr \tab
 #'												col2: rank of high pair}
 #'@param nPlayers number of hands as			integer in \{2, ... , 9\}
-#'@param cards \tabular{ll}{the 7 card hand as
+#'@param cards : \tabular{ll}{the 7 card hand as
 #'												matrix[nPlayers, 14] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -1497,7 +1497,7 @@ dotFourOfAKindRanker <- function(oneHand) {
 #'												. \cr \tab
 #'												col13: rank of card 7 \cr \tab
 #'												col14: suit of card 7}
-#'@param score \tabular{ll}{the score of the hand in absolute terms as
+#'@param score : \tabular{ll}{the score of the hand in absolute terms as
 #'												vector[nPlayers] \tab \cr \tab
 #'												 9 = Straight Flush \cr \tab
 #'												 8 = Four of a Kind \cr \tab
@@ -1547,7 +1547,7 @@ dotFourOfAKind <- function(nPlayers,cards,score) {
 #'
 #'Determine the rank of the highest card in a straight flush. This function assumes cards are sorted in ascending order.
 #'
-#'@param yTempRow \tabular{ll}{a sorted 7 card hand of numbers as
+#'@param yTempRow : \tabular{ll}{a sorted 7 card hand of numbers as
 #'												vector[7] \tab \cr \tab
 #'												col1: number of card 1 in \{1, 2, ... , 52\} \cr \tab
 #'												col2: number of card 2 \cr \tab
@@ -1601,7 +1601,7 @@ dotStraightFlushRanker <- function(yTempRow) {
 #'maxStraight : the high card in each straight as
 #'												vector[nPlayers]
 #'@param nPlayers number of hands as			integer in \{2, ... , 9\}
-#'@param cards \tabular{ll}{the 7 card hand as
+#'@param cards : \tabular{ll}{the 7 card hand as
 #'												matrix[nPlayers, 14] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -1612,7 +1612,7 @@ dotStraightFlushRanker <- function(yTempRow) {
 #'												. \cr \tab
 #'												col13: rank of card 7 \cr \tab
 #'												col14: suit of card 7}
-#'@param score \tabular{ll}{the score of the hand in absolute terms as
+#'@param score : \tabular{ll}{the score of the hand in absolute terms as
 #'												vector[nPlayers] \tab \cr \tab
 #'												 9 = Straight Flush \cr \tab
 #'												 8 = Four of a Kind \cr \tab
@@ -1659,7 +1659,7 @@ dotStraightFlush <- function(nPlayers, cards, score) {
 #'Determine the winner in the presence of any ties.
 #'
 #'@param nPlayers number of hands as			integer in \{2, ... , 9\}
-#'@param cards \tabular{ll}{the 7 card hand as
+#'@param cards : \tabular{ll}{the 7 card hand as
 #'												matrix[nPlayers, 14] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -1670,7 +1670,7 @@ dotStraightFlush <- function(nPlayers, cards, score) {
 #'												. \cr \tab
 #'												col13: rank of card 7 \cr \tab
 #'												col14: suit of card 7}
-#'@param score \tabular{ll}{the score of the hand in absolute terms as
+#'@param score : \tabular{ll}{the score of the hand in absolute terms as
 #'												vector[nPlayers] \tab \cr \tab
 #'												 9 = Straight Flush \cr \tab
 #'												 8 = Four of a Kind \cr \tab
@@ -1720,9 +1720,9 @@ tiebreaker <- function(nPlayers,cards,score) {
 }
 
 
-#'CGIplayers
+#'cgiPlayers
 #'
-#'A primitive method (i.e., does not support classes) for graphics using the plot() function. Built-in support for 2-9 players.  This function was written on a Mac and may not be PC-compatible (yet). You must have already called CGIplayers(time=1, ...) before calling CGIplayers(time=2, ...), you must have already called CGIplayers(time=1, ...) and CGIplayers(time=2, ...) before calling CGIplayers(time=3, ...), etc. 
+#'A primitive method (i.e., does not support classes) for graphics using the plot() function. Built-in support for 2-9 players.  This function was written on a Mac and may not be PC-compatible (yet). You must have already called cgiPlayers(time=1, ...) before calling cgiPlayers(time=2, ...), you must have already called cgiPlayers(time=1, ...) and cgiPlayers(time=2, ...) before calling cgiPlayers(time=3, ...), etc. 
 #'
 #'Locals:\cr
 #'nPlayers : number of hands as			integer in \{2, ... , 9\} \cr
@@ -1736,14 +1736,14 @@ tiebreaker <- function(nPlayers,cards,score) {
 #'Y3 : y-coordinate for Community as	real number in [0, height] \cr
 #'X4 : x-coordinate for outline as		real number in [0, width] \cr
 #'Y4 : y-coordinate for outline as		real number in [0, height]
-#'@param time \tabular{ll}{the current round as	integer in \{1, 2, 3, 4\} \tab \cr \tab
+#'@param time : \tabular{ll}{the current round as	integer in \{1, 2, 3, 4\} \tab \cr \tab
 #'												1 = pre-flop \cr \tab
 #'												2 = flop \cr \tab
 #'												3 = turn \cr \tab
 #'												4 = river}
 #'@param alias names of players	as				vector[nPlayers]
 #'@param position dealer position as 			integer in \{2, ..., nPlayers\}
-#'@param cards \tabular{ll}{the 7 card hand as
+#'@param cards : \tabular{ll}{the 7 card hand as
 #'												matrix[nPlayers, 14] \tab \cr \tab
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -1754,7 +1754,7 @@ tiebreaker <- function(nPlayers,cards,score) {
 #'												. \cr \tab
 #'												col13: rank of card 7 \cr \tab
 #'												col14: suit of card 7}
-#'@param score \tabular{ll}{the score of the hand in absolute terms as
+#'@param score : \tabular{ll}{the score of the hand in absolute terms as
 #'												vector[nPlayers] \tab \cr \tab
 #'												9 = Straight Flush \cr \tab
 #'												8 = Four of a Kind \cr \tab
@@ -1765,15 +1765,15 @@ tiebreaker <- function(nPlayers,cards,score) {
 #'												3 = Two Pair \cr \tab
 #'												2 = One Pair \cr \tab
 #'												1 = High Card}
-#'@return In lieu of a return value, CGIplayers calls the plot() function.
+#'@return In lieu of a return value, cgiPlayers calls the plot() function.
 #'@examples
-#'CGIplayers(1, c("Player1", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7", "Player8", "Player9"), 9, matrix(c(2, 8, 12, 14, 10, 6, 14, 8, 4, 2, 3, 2, 4, 1, 4, 3, 1, 1, 13, 4, 4, 5, 3, 9, 8, 12, 7, 3, 4, 3, 2, 2, 4, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, 12, 12, 12, 12, 12, 12, 12, 12, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3), nrow=9, ncol=14, byrow=FALSE), c(2, 1, 2, 1, 3, 1, 1, 2, 1))
-#'CGIplayers(2, c("Player1", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7", "Player8", "Player9"), 9, matrix(c(2, 8, 12, 14, 10, 6, 14, 8, 4, 2, 3, 2, 4, 1, 4, 3, 1, 1, 13, 4, 4, 5, 3, 9, 8, 12, 7, 3, 4, 3, 2, 2, 4, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, 12, 12, 12, 12, 12, 12, 12, 12, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3), nrow=9, ncol=14, byrow=FALSE), c(2, 1, 2, 1, 3, 1, 1, 2, 1))
-#'CGIplayers(3, c("Player1", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7", "Player8", "Player9"), 9, matrix(c(2, 8, 12, 14, 10, 6, 14, 8, 4, 2, 3, 2, 4, 1, 4, 3, 1, 1, 13, 4, 4, 5, 3, 9, 8, 12, 7, 3, 4, 3, 2, 2, 4, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, 12, 12, 12, 12, 12, 12, 12, 12, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3), nrow=9, ncol=14, byrow=FALSE), c(2, 1, 2, 1, 3, 1, 1, 2, 1))
-#'CGIplayers(3, c("Player1", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7", "Player8", "Player9"), 9, matrix(c(2, 8, 12, 14, 10, 6, 14, 8, 4, 2, 3, 2, 4, 1, 4, 3, 1, 1, 13, 4, 4, 5, 3, 9, 8, 12, 7, 3, 4, 3, 2, 2, 4, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, 12, 12, 12, 12, 12, 12, 12, 12, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3), nrow=9, ncol=14, byrow=FALSE), c(2, 1, 2, 1, 3, 1, 1, 2, 1))
-#'CGIplayers(4, c("Player1", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7", "Player8", "Player9"), 9, matrix(c(2, 8, 12, 14, 10, 6, 14, 8, 4, 2, 3, 2, 4, 1, 4, 3, 1, 1, 13, 4, 4, 5, 3, 9, 8, 12, 7, 3, 4, 3, 2, 2, 4, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, 12, 12, 12, 12, 12, 12, 12, 12, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3), nrow=9, ncol=14, byrow=FALSE), c(2, 1, 2, 1, 3, 1, 1, 2, 1))
+#'cgiPlayers(1, c("Player1", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7", "Player8", "Player9"), 9, matrix(c(2, 8, 12, 14, 10, 6, 14, 8, 4, 2, 3, 2, 4, 1, 4, 3, 1, 1, 13, 4, 4, 5, 3, 9, 8, 12, 7, 3, 4, 3, 2, 2, 4, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, 12, 12, 12, 12, 12, 12, 12, 12, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3), nrow=9, ncol=14, byrow=FALSE), c(2, 1, 2, 1, 3, 1, 1, 2, 1))
+#'cgiPlayers(2, c("Player1", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7", "Player8", "Player9"), 9, matrix(c(2, 8, 12, 14, 10, 6, 14, 8, 4, 2, 3, 2, 4, 1, 4, 3, 1, 1, 13, 4, 4, 5, 3, 9, 8, 12, 7, 3, 4, 3, 2, 2, 4, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, 12, 12, 12, 12, 12, 12, 12, 12, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3), nrow=9, ncol=14, byrow=FALSE), c(2, 1, 2, 1, 3, 1, 1, 2, 1))
+#'cgiPlayers(3, c("Player1", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7", "Player8", "Player9"), 9, matrix(c(2, 8, 12, 14, 10, 6, 14, 8, 4, 2, 3, 2, 4, 1, 4, 3, 1, 1, 13, 4, 4, 5, 3, 9, 8, 12, 7, 3, 4, 3, 2, 2, 4, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, 12, 12, 12, 12, 12, 12, 12, 12, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3), nrow=9, ncol=14, byrow=FALSE), c(2, 1, 2, 1, 3, 1, 1, 2, 1))
+#'cgiPlayers(3, c("Player1", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7", "Player8", "Player9"), 9, matrix(c(2, 8, 12, 14, 10, 6, 14, 8, 4, 2, 3, 2, 4, 1, 4, 3, 1, 1, 13, 4, 4, 5, 3, 9, 8, 12, 7, 3, 4, 3, 2, 2, 4, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, 12, 12, 12, 12, 12, 12, 12, 12, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3), nrow=9, ncol=14, byrow=FALSE), c(2, 1, 2, 1, 3, 1, 1, 2, 1))
+#'cgiPlayers(4, c("Player1", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7", "Player8", "Player9"), 9, matrix(c(2, 8, 12, 14, 10, 6, 14, 8, 4, 2, 3, 2, 4, 1, 4, 3, 1, 1, 13, 4, 4, 5, 3, 9, 8, 12, 7, 3, 4, 3, 2, 2, 4, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, 12, 12, 12, 12, 12, 12, 12, 12, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3), nrow=9, ncol=14, byrow=FALSE), c(2, 1, 2, 1, 3, 1, 1, 2, 1))
 #'@export
-CGIplayers <- function(time, alias, position, cards, score) {
+cgiPlayers <- function(time, alias, position, cards, score) {
 	nPlayers <- nrow(cards)
 	width <- 30
 	height <- 20
