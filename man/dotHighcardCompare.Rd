@@ -7,7 +7,7 @@
 dotHighcardCompare(rankMatrix)
 }
 \arguments{
-\item{rankMatrix}{\tabular{ll}{the ranks from the 7 card hand as
+\item{rankMatrix}{: \tabular{ll}{the ranks from the 7 card hand as
 matrix[nPlayers, 7] \tab \cr \tab
 col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 col2: rank of card 2 \cr \tab
@@ -21,14 +21,7 @@ winner : absolute position of the winner as
 											vector
 }
 \description{
-Determines the players with the high card. \cr
-}
-\details{
-Locals: \cr
-step : the step for comparison of highest card as
-											integer \cr
-			Tie : the positions of the players with Tied highest cards as
-											vector \cr
+Determine the player(s) with the high card.
 }
 \examples{
 dotHighcardCompare(matrix(c(2,4,5,6,7,13,14,2,3,5,6,7,13,14),2,7,byrow=TRUE))

@@ -20,11 +20,6 @@ y : cards dealt in hole as		vector[nCards] in \{1, 2, ..., 52\}
 \description{
 Assume player 1 already has cards.  For remaining players, generate Player+Community cards = 2x(nPlayers-1)+5 cards. \cr
 }
-\details{
-Locals: \cr
-nCards : number of cards dealt to players as
-											integer in \{4, 6, 8, ... , 18\} \cr
-}
 \examples{
 dotTestDealer(9,9,c(1,52))
 dotTestDealer(9,5,c(1,52))

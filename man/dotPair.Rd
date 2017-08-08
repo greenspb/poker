@@ -9,7 +9,7 @@ dotPair(nPlayers, cards, score)
 \arguments{
 \item{nPlayers}{number of hands as        integer in \{2, ... , 9\}}
 
-\item{cards}{\tabular{ll}{the 7 card hands as
+\item{cards}{: \tabular{ll}{the 7 card hands as
 matrix[nPlayers, 14] \tab \cr \tab
 col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -21,7 +21,7 @@ col4: suit of card 2 \cr \tab
 col13: rank of card 7 \cr \tab
 col14: suit of card 7}}
 
-\item{score}{\tabular{ll}{the score of the hands in absolute terms as
+\item{score}{: \tabular{ll}{the score of the hands in absolute terms as
 vector[nPlayers] \tab \cr \tab
  9 = Straight Flush \cr \tab
  8 = Four of a Kind \cr \tab
@@ -38,28 +38,14 @@ winner : absolute position of the winner as
 											vector
 }
 \description{
-Determines the players with the highest pair and kicker cards. \cr
-}
-\details{
-Locals: \cr
-ranks : the indices for rank as	vector \cr
-\tabular{ll}{temp : a copy of cards with ranks only as
-											matrix[nPlayers, 7] \tab \cr \tab
-											col1: rank of card 1 in \{2, ... , 14\} \cr \tab
-											col2: rank of card 2 \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab
-											col7: rank of card 7} \cr
-			pairRanks : the rank of each pair as
-											vector[nPlayers] \cr
-			kickers : the kicker cards with respect to a pair, i.e. 3 highest nonpaired cards as
-											matrix[nPlayers,3] \cr
-			step : the step for comparison of highest card as
-											integer \cr
-			Tie : the positions of the players with Tied kicker cards as
-											vector \cr
+Determine the player(s) with the highest pair and kicker cards.
 }
 \examples{
-dotPair(3,matrix(c(2, 3, 4, 5, 1, 1, 1, 1, 2, 3, 6, 7, 2, 2, 2, 2, 4, 4, 4, 4, 3, 3, 3, 3, 11, 11, 11, 11, 3, 3, 3, 3, 13, 13, 13, 13, 3, 3, 3, 3, 14, 14, 14, 14, 3, 3, 3, 3, 9, 9, 9, 9, 4, 4, 4, 4), byrow=FALSE,nrow=4,ncol=14),c(2,2,1))
+cards <- c(2,3,4,1,1,1,2,3,6,2,2,2,4,4,4,3,3,3,11,11,11,3,3,3,13,13,13)
+cards <- c(cards,3,3,3,14,14,14,3,3,3,9,9,9,4,4,4)
+cards <- matrix(cards,nrow=3,ncol=14)
+dotPair(3,cards,c(2,2,2))
+}
+\seealso{
+\code{\link{dotPairRanker}} and \code{\link{dotHighcardCompare}}
 }

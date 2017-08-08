@@ -7,7 +7,7 @@
 dotStraightRanker(oneHand)
 }
 \arguments{
-\item{oneHand}{\tabular{ll}{a sorted hand with ranks only as
+\item{oneHand}{: \tabular{ll}{a sorted hand with ranks only as
 vector[7] \tab \cr \tab
 col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 col2: rank of card 2 \cr \tab
@@ -21,12 +21,7 @@ straightRank : the rank of top card in the straight as
 											integer
 }
 \description{
-Returns the rank of the highest card in the straight. \cr
-}
-\details{
-Locals: \cr		
-k : length of unique ranks as		integer in \{2, 3, ... , 7\} \cr
-			counter : number of cards in a consecutive sequence \cr
+Returns the rank of the highest card in the straight.
 }
 \examples{
 dotStraightRanker(c(2,3,4,5,6,9,10))

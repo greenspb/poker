@@ -7,7 +7,7 @@
 showdown(cards)
 }
 \arguments{
-\item{cards}{\tabular{ll}{the 7 card hand as 
+\item{cards}{: \tabular{ll}{the 7 card hand as 
 matrix[nPlayers, 14]  \tab \cr \tab
 col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -28,8 +28,11 @@ col4: suit of card 2}}
 											 1 = High Card}
 }
 \description{
-Determine the ranking of the hands. \cr
+Determine the ranking of the hands.
 }
 \examples{
 showdown(matrix( c( 2,1,3,2,5,3,6,4,7,1,13,2,14,2,2,3,2,4,5,1,6,2,7,3,13,4,14,4),2,14,byrow=TRUE))
+}
+\seealso{
+\code{\link{dotScorer}}
 }

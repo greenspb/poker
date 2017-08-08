@@ -7,7 +7,7 @@
 dotScorer(cardsRow)
 }
 \arguments{
-\item{cardsRow}{\tabular{ll}{one 7 card hand as
+\item{cardsRow}{: \tabular{ll}{one 7 card hand as
 vector[14] \tab  \cr \tab
 col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -33,61 +33,7 @@ col14: suit of card 7}}
 											 1 = High Card}
 }
 \description{
-Determine the ranking of one hand. \cr
-}
-\details{
-Locals: \cr
-ranks : the indices for rank as vector \cr
-suits : the indices for suit as vector \cr
-sortedSuits : the sorted suits as
-											vector \cr
-				sortedRanks : the sorted suits as
-											vector \cr
-			\tabular{ll}{suitValues : the unique values of equal suits as 
-											vector \tab \cr \tab
-											col1: lowest unique suit \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab
-											coln: highest unique suit} \cr
-			\tabular{ll}{suitLengths : the lengths of equal suits as
-											vector \tab \cr \tab
-											col1: length of lowest rank \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab
-											coln: length of highest rank} \cr
-			\tabular{ll}{rankValues : the unique values of equal ranks as
-											vector \tab \cr \tab
-											col1: lowest unique rank \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab
-											coln: highest unique rank} \cr
-			\tabular{ll}{rankLengths : the lengths of equal ranks as 
-											vector \tab \cr \tab
-											col1: length of lowest rank \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab												
-											coln: length of highest rank} \cr
-			j : for name in vector as
-											numeric in vector \cr
-			k : the length of the length of unique ranks as
-											integer \cr
-			kgt4 : the positive difference between k and 4 as
-											integer \cr
-			straight : create an indicator variable for the presence of a straight as
-											boolean \cr
-			\tabular{ll}{yTemp : the 7 card hand transformed to number as
-											vector \tab \cr \tab
-											col1: the number of card 1 in \{1, 2, ... , 52\} \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab
-											col7: the number of card 7} \cr
-			straightFlushCounter : a counter for the number of sequential cards of the same rank as
-											integer \cr
+Determine the ranking of one hand.
 }
 \examples{
 dotScorer(c(2,1,3,2,5,3,6,4,7,1,13,2,14,2))
@@ -99,4 +45,7 @@ dotScorer(c(2,1,3,1,5,1,6,1,7,1,13,2,14,2))
 dotScorer(c(2,1,2,2,2,8,13,8,7,1,13,2,14,2))
 dotScorer(c(2,1,2,2,2,3,2,4,7,1,13,2,14,2))
 dotScorer(c(2,1,3,1,4,1,5,1,6,1,7,1,14,2))
+}
+\seealso{
+\code{\link{dotTransformToNumber}}, \code{\link{dotTransformToRank}}
 }

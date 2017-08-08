@@ -7,7 +7,7 @@
 dotTwoPairRanker(oneHand)
 }
 \arguments{
-\item{oneHand}{\tabular{ll}{a sorted hand with ranks only as
+\item{oneHand}{: \tabular{ll}{a sorted hand with ranks only as
 vector[7] \tab \cr \tab
 col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 col2: rank of card 2 \cr \tab
@@ -21,22 +21,7 @@ pairRank : the rank of the pair as
 											vector
 }
 \description{
-Determines the ranks of the two pairs.  Notes: dotTwoPairRanker requires a hand with a score of 3 (i.e., two pairs). This functions works best when ranks are sorted in decreasing order. \cr
-}
-\details{
-Locals: \cr
-\tabular{ll}{rankValues: the unique values of equal ranks as
-											vector \tab \cr \tab
-											col1: lowest unique rank \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab
-											coln: highest unique rank} \cr
-\tabular{ll}{rankLengths: the lengths of equal ranks as
-											vector \tab \cr \tab
-											col1: length of lowest rank \cr \tab
-											. \cr \tab
-											.} \cr
+Determine the ranks of the two pairs.  Notes: dotTwoPairRanker requires a hand with a score of 3 (i.e., two pairs). This functions works best when ranks are sorted in decreasing order.
 }
 \examples{
 dotTwoPairRanker(c(9,7,5,3,3,2,2))

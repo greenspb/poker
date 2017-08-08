@@ -7,7 +7,7 @@
 dotStraightFlushRanker(yTempRow)
 }
 \arguments{
-\item{yTempRow}{\tabular{ll}{a sorted 7 card hand of numbers as
+\item{yTempRow}{: \tabular{ll}{a sorted 7 card hand of numbers as
 vector[7] \tab \cr \tab
 col1: number of card 1 in \{1, 2, ... , 52\} \cr \tab
 col2: number of card 2 \cr \tab
@@ -21,7 +21,7 @@ straightFlushRank : the top card in the straight flush as
 											integer
 }
 \description{
-Determines the rank of the highest card in a straight flush. This function assumes cards are sorted in ascending order.
+Determine the rank of the highest card in a straight flush. This function assumes cards are sorted in ascending order.
 }
 \examples{
 dotStraightFlushRanker(c(1,2,3,4,5,15,19))

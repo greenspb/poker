@@ -7,7 +7,7 @@
 dotFlush(cards, score)
 }
 \arguments{
-\item{cards}{\tabular{ll}{the 7 card hand as
+\item{cards}{: \tabular{ll}{the 7 card hand as
 matrix[nPlayers, 14] \tab \cr \tab
 col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -19,7 +19,7 @@ col4: suit of card 2 \cr \tab
 col13: rank of card 7 \cr \tab
 col14: suit of card 7}}
 
-\item{score}{\tabular{ll}{the score of the hand in absolute terms as
+\item{score}{: \tabular{ll}{the score of the hand in absolute terms as
 vector[nPlayers] \tab \cr \tab
  9 = Straight Flush \cr \tab
  8 = Four of a Kind \cr \tab
@@ -36,19 +36,19 @@ winner : absolute position of the winner as
 											vector
 }
 \description{
-Determines the player with the highest flush. \cr
-}
-\details{
-Locals: \cr
-\tabular{ll}{flushRank : the rank of 5 high cards in flush as
-											vector[5] \tab \cr \tab
-											col1: suit of card 1 in \{2, ... , 14\} \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab
-											col5: suit of card n in \{2, ... , 14\}}
+Determine the player with the highest flush.
 }
 \examples{
-dotFlush(matrix(c(2,1,3,3,5,2,6,3,7,3,13,3,14,3,2,3,3,4,5,1,6,3,7,3,13,3,14,3),2,14,byrow=TRUE),c(6,6))
-dotFlush(matrix(c(2,1,3,3,5,3,6,3,7,3,13,3,14,3,2,3,3,4,5,3,6,3,7,3,13,3,14,3),2,14,byrow=TRUE),c(6,6))
+cards <- c(2,1,3,3,5,2,6,3,7,3,13,3,14,3,2,3,3,4,5,1,6,3,7,3,13,3,14,3)
+cards <- matrix(cards,2,14,byrow=TRUE); cards
+score <- showdown(cards); score
+dotFlush(cards,score)
+
+cards <- c(2,1,3,3,5,3,6,3,7,3,13,3,14,3,2,3,3,4,5,3,6,3,7,3,13,3,14,3)
+cards <- matrix(cards,2,14,byrow=TRUE);cards
+score <- showdown(cards); score 
+dotFlush(cards,score)
+}
+\seealso{
+\code{\link{dotFlushRanker}} and \code{\link{dotHighcardCompare}}
 }

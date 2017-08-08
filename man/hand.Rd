@@ -7,7 +7,7 @@
 hand(players, board)
 }
 \arguments{
-\item{players}{\tabular{ll}{the hole cards as            matrix[nPlayers, 4] \tab \cr \tab
+\item{players}{: \tabular{ll}{the hole cards as            matrix[nPlayers, 4] \tab \cr \tab
 col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
 col3: rank of card 2 \cr \tab
@@ -29,17 +29,12 @@ col4: suit of card 2}}
 											col14: suit of card 7}
 }
 \description{
-Assemble the 7 card hands. \cr
-}
-\details{
-Locals: \cr
-nPlayers : number of hands as			integer in \{2, ... , 9\} \cr
-i : for name in vector as
-									numeric in vector \cr
-j : index for hole cards as
-											numeric in vector \cr
+Assemble the 7 card hands.
 }
 \examples{
 hand(matrix(1:18,9,2,byrow=TRUE),19:23)
-hand(matrix(c(1:9,14:22),9,2,byrow=FALSE),48:52)
+hand(matrix(c(1:9,14:22),9,2),48:52)
+}
+\seealso{
+\code{\link{dotTransformToRank}} and \code{\link{dotTransformToSuit}}
 }

@@ -7,7 +7,7 @@
 dotTripRanker(oneHand)
 }
 \arguments{
-\item{oneHand}{\tabular{ll}{a sorted hand with ranks only as
+\item{oneHand}{: \tabular{ll}{a sorted hand with ranks only as
 vector[7] \tab \cr \tab
 col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 col2: rank of card 2 \cr \tab
@@ -21,22 +21,7 @@ tripRank : the rank of the pair as
 											vector
 }
 \description{
-Determines the rank of the three of a kind.  Note: dotTripRanker requires a hand with a score of 4 (i.e., three of a kind).
-}
-\details{
-Locals:\cr
-\tabular{ll}{rankValues: the unique values of equal ranks as
-											vector \tab \cr \tab
-											col1: lowest unique rank \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab
-											coln: highest unique rank} \cr
-\tabular{ll}{rankLengths: the lengths of equal ranks as
-											vector \tab \cr \tab
-											col1: length of lowest rank \cr \tab
-											. \cr \tab
-											.} \cr
+Determine the rank of the three of a kind.  Note: dotTripRanker requires a hand with a score of 4 (i.e., three of a kind).
 }
 \examples{
 dotTripRanker(c(9,7,5,3,3,3,2))

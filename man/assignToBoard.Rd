@@ -13,7 +13,7 @@ assignToBoard(y)
 board :	the board cards	as		vector[5] in \{1, 2, ..., 52\}
 }
 \description{
-Deal 3 community cards. \cr
+Deal 3 community cards.
 }
 \examples{
 assignToBoard(1:23)

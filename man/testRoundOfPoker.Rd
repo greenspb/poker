@@ -10,46 +10,11 @@ testRoundOfPoker()
 Outputs a plot window showing the cards dealt as well as prints to the console the summary text, i.e., each hand's score and the winner.
 }
 \description{
-Run a test round of poker. \cr
-}
-\details{
-Locals: \cr
-nPlayers : number of hands to deal as 		integer in \{2, ..., nPlayers\} \cr
-			y : cards dealt in hole as		vector[nCards] in \{1, 2, ..., 52\} \cr
-			\tabular{ll}{players :	the hole cards in absolute position as
-											matrix[nPlayers, 4] \tab \cr \tab
-											col1: rank of card 1 in \{2, ... , 14\} \cr \tab
-											col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
-											col3: rank of card 2 \cr \tab
-											col4: suit of card 2} \cr
-			board :	the board cards	as		vector[5] in \{1, 2, ..., 52\} \cr
-			\tabular{ll}{cards : the 7 card hand as
-											matrix[nPlayers, 14] \tab \cr \tab
-											col1: rank of card 1 in \{2, ... , 14\} \cr \tab
-											col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
-											col3: rank of card 2 \cr \tab
-											col4: suit of card 2 \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab
-											col13: rank of card 7 \cr \tab
-											col14: suit of card 7} \cr
-			\tabular{ll}{score : the score of the hand in absolute terms as
-											vector[nPlayers] \tab \cr \tab
-											 9 = Straight Flush \cr \tab
-											 8 = Four of a Kind \cr \tab
-											 7 = Full House \cr \tab
-											 6 = Flush \cr \tab
-											 5 = Straight \cr \tab
-											 4 = Three of a Kind \cr \tab
-											 3 = Two Pair \cr \tab
-											 2 = One Pair \cr \tab
-											 1 = High Card} \cr
-\tabular{ll}{alias: names of players as
-											vector of strings \tab \cr tab
-											vector length must be between 2 and 9 (inclusive)}\cr
-position dealer position as 		integer in \{2, ..., nPlayers\} \cr
+Run a test round of poker.
 }
 \examples{
 testRoundOfPoker()
+}
+\seealso{
+\code{\link{deal}}, \code{\link{assignToPlayers}}, \code{\link{assignToBoard}}, \code{\link{hand}}, \code{\link{showdown}}, \code{\link{tiebreaker}}, and \code{\link{cgiPlayers}}
 }

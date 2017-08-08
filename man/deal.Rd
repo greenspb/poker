@@ -16,11 +16,7 @@ integer in \{2, ... , 9\}}
 y : cards dealt in hole			as vector[nCards] in \{1, 2, ..., 52\}
 }
 \description{
-Generate Player+Community cards = 2x(nPlayers)+5 cards. \cr
-}
-\details{
-Locals: \cr
-nCards : number of cards dealt to players as integer in \{4, 6, 8, ... 16\}
+Generate Player+Community cards = 2x(nPlayers)+5 cards.
 }
 \examples{
 deal(9,9)

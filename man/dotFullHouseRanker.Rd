@@ -7,7 +7,7 @@
 dotFullHouseRanker(oneHand)
 }
 \arguments{
-\item{oneHand}{\tabular{ll}{the ranks of one 7 card hand as
+\item{oneHand}{: \tabular{ll}{the ranks of one 7 card hand as
 vector[7] \tab \cr \tab
 col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 col2: rank of card 2 \cr \tab
@@ -23,24 +23,7 @@ col7: rank of card 7}}
 											col2: the rank of the top pair}
 }
 \description{
-Determines the rank of the top set and the top pair. \cr
-}
-\details{
-Locals: \cr
-\tabular{ll}{values : the unique values of equal ranks as
-											vector \tab \cr \tab
-											col1: top unique rank \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab
-											coln: bottom unique rank} \cr
-\tabular{ll}{lengths : the lengths of equal ranks as
-											vector \tab \cr \tab
-											col1: length of top rank \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab
-											coln: length of bottom rank} \cr
+Determine the rank of the top set and the top pair.
 }
 \examples{
 dotFullHouseRanker(c(2,2,2,5,5,8,9))

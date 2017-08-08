@@ -7,7 +7,7 @@
 dotStraight(cards, score)
 }
 \arguments{
-\item{cards}{\tabular{ll}{the 7 card hand as
+\item{cards}{: \tabular{ll}{the 7 card hand as
 matrix[nPlayers, 14] \tab \cr \tab
 col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
@@ -19,7 +19,7 @@ col4: suit of card 2 \cr \tab
 col13: rank of card 7 \cr \tab
 col14: suit of card 7}}
 
-\item{score}{\tabular{ll}{the score of the hand in absolute terms as
+\item{score}{: \tabular{ll}{the score of the hand in absolute terms as
 vector[nPlayers] \tab \cr \tab
  9 = Straight Flush \cr \tab
  8 = Four of a Kind \cr \tab
@@ -36,23 +36,21 @@ winner : absolute position of the winner as
 											vector
 }
 \description{
-Determines the player with the highest straight. \cr
-}
-\details{
-Locals: \cr
-ranks : the indices for rank as	vector \cr
-\tabular{ll}{temp : a copy of cards with ranks only as
-											matrix[nPlayers, 7] \tab \cr \tab
-											col1: rank of card 1 in \{2, ... , 14\} \cr \tab
-											col2: rank of card 2 \cr \tab
-											. \cr \tab
-											. \cr \tab
-											. \cr \tab
-											col7: rank of card 7} \cr
-			maxStraight : the high card in each straight as
-											vector[nPlayers] \cr
+Determine the player with the highest straight.
 }
 \examples{
-dotStraight(matrix(c(7,1,4,2,4,1,4,3,10,1,11,2,2,2,2,3,3,3,3,3,3,1,1,1,5,5,5,4,4,4,6,6,6,2,2,2,14,14,14,2,2,2),byrow=FALSE,nrow=3,ncol=14),c(5,2,5))
-dotStraight(matrix(c(2,1,4,2,4,1,4,3,10,1,11,2,2,2,2,3,3,3,3,3,3,1,1,1,5,5,5,4,4,4,6,6,6,2,2,2,14,14,14,2,2,2),byrow=FALSE,nrow=3,ncol=14),c(5,2,5))
+cards <- c(7,1,4,2,4,1,4,3,10,1,11,2,2,2,2,3,3,3,3,3,3,1,1,1,5,5,5)
+cards <- c(cards,4,4,4,6,6,6,2,2,2,14,14,14,2,2,2)
+cards <- matrix(cards,nrow=3,ncol=14); cards
+score <- showdown(cards); score
+dotStraight(cards, score)
+
+cards <- c(2,1,4,2,4,1,4,3,10,1,11,2,2,2,2,3,3,3,3,3,3,1,1,1,5,5,5)
+cards <- c(cards,4,4,4,6,6,6,2,2,2,14,14,14,2,2,2)
+cards <- matrix(cards,nrow=3,ncol=14); cards
+score <- showdown(cards); score
+dotStraight(cards, score)
+}
+\seealso{
+\code{\link{dotStraightRanker}}
 }

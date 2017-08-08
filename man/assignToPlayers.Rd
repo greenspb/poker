@@ -23,17 +23,13 @@ integer in \{2, ... , 9\}}
 											col4: suit of card 2}
 }
 \description{
-A standard deal situation beginnng the deal at the left of the dealer. \cr
-}
-\details{
-Locals: \cr
-i : for name in vector as
-											numeric in vector \cr
-			k : for name in vector as
-											numeric in vector
+A standard deal situation beginnng the deal at the left of the dealer.
 }
 \examples{
 assignToPlayers(9,9,1:23)
 assignToPlayers(9,1,1:23)
 assignToPlayers(9,1,c(1:17,24,48:52))
+}
+\seealso{
+\code{\link{dotTransformToAbsolute}}
 }
