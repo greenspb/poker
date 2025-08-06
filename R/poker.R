@@ -132,10 +132,9 @@ eliminate_broke_players <- function(players) {
   Filter(function(p) p$chips > 0 || (p$in_hand && (p$bet > 0 || p$all_in)), players)
 }
 
-
 #'interactive_betting_round
 #'
-#'Run a Texas Hold'em betting round with correct order, repeated action, and pot/sidepot display.
+#'Run an interactive betting round with improved user interface and sidepot support.
 #'
 #'@param players List of player objects as returned by \code{reset_hand}.
 #'@param round_name Name of the betting round as character (e.g., "Pre-flop").
@@ -143,115 +142,60 @@ eliminate_broke_players <- function(players) {
 #'@param dealer_pos Index of dealer as integer.
 #'@param small_blind Amount for small blind as integer.
 #'@param big_blind Amount for big blind as integer.
-#'@param cards Current hand matrix for graphics.
 #'@return players : updated list of player objects after the betting round.
 #'@seealso \code{\link{interactive_tournament}}, \code{\link{place_bet}}
 #'@examples
 #'players <- tournament_init_players(c("Alice", "Bob"), 100)
 #'interactive_betting_round(players, "Pre-flop")
 #'@export
-
-#'interactive_betting_round
-#'
-#'Run a Texas Hold'em betting round with correct order, repeated action, and pot/sidepot display. Bets are tracked per stage and moved to the pot after each round.
-#'
-#'@param players List of player objects as returned by \code{reset_hand}.
-#'@param round_name Name of the betting round as character (e.g., "Pre-flop").
-#'@param min_bet Minimum bet for the round as integer.
-#'@param dealer_pos Index of dealer as integer.
-#'@param small_blind Amount for small blind as integer.
-#'@param big_blind Amount for big blind as integer.
-#'@param cards Current hand matrix for graphics.
-#'@param pot Current pot value (integer).
-#'@return List: updated players and pot value after the betting round.
-#'@seealso \code{\link{interactive_tournament}}, \code{\link{place_bet}}
-#'@examples
-#'players <- tournament_init_players(c("Alice", "Bob"), 100)
-#'interactive_betting_round(players, "Pre-flop")
-#'@export
-interactive_betting_round <- function(players, round_name, min_bet = 10, dealer_pos = 1, small_blind = 5, big_blind = 10, cards = NULL, pot = 0) {
+interactive_betting_round <- function(players, round_name, min_bet = 10, dealer_pos = 1, small_blind = 5, big_blind = 10) {
   n <- length(players)
+  to_call <- max(sapply(players, function(p) p$bet))
   # Set blinds if pre-flop
   if (round_name == "Pre-flop") {
 	sb_pos <- (dealer_pos %% n) + 1
 	bb_pos <- (sb_pos %% n) + 1
 	players[[sb_pos]] <- place_bet(players[[sb_pos]], small_blind, 0)
 	players[[bb_pos]] <- place_bet(players[[bb_pos]], big_blind, 0)
+	to_call <- big_blind
   }
-  # Betting order: first to act is left of big blind (pre-flop), else left of dealer
-  if (round_name == "Pre-flop") {
-	first_to_act <- ((bb_pos) %% n) + 1
-  } else {
-	first_to_act <- ((dealer_pos + 1 - 1) %% n) + 1
-  }
-  # Track stage bets
-  stage_bets <- rep(0, n)
-  last_raiser <- NULL
-  current <- first_to_act
   acted <- rep(FALSE, n)
   repeat {
-	# Show updated graphics after every action
-	if (!is.null(cards)) {
-	  cgiPlayers(time = switch(round_name, "Pre-flop"=1, "Flop"=2, "Turn"=3, "River"=4),
-				 alias = sapply(players, function(p) p$name),
-				 position = dealer_pos,
-				 cards = cards,
-				 dealer_pos = dealer_pos,
-				 chips = sapply(players, function(p) p$chips))
-	  # Show pot and bets
-	  bet_str <- paste(sapply(players, function(p) paste0(p$name, ": ", p$bet)), collapse = ", ")
-	  # Clear previous mtext by plotting a blank mtext first
-	  mtext(" ", side=3, line=0.5, cex=0.9)
-	  mtext(sprintf("Pot: %d | Stage Bets: %s", pot, bet_str), side=3, line=0.5, cex=0.9)
+	for (i in seq_along(players)) {
+	  p <- players[[i]]
+	  if (!p$in_hand || p$folded || p$all_in || p$chips == 0) next
+	  cat(sprintf("%s (chips: %d, bet: %d)%s\n", p$name, p$chips, p$bet, if (i == dealer_pos) " [DEALER]" else ""))
+	  to_call <- max(sapply(players, function(p) p$bet))
+	  call_amt <- to_call - p$bet
+	  can_check <- call_amt == 0
+	  can_bet <- p$chips > 0
+	  prompt <- if (can_check) "[c]heck, [b]et, [f]old: " else if (can_bet) "[c]all, [r]aise, [f]old: " else "[f]old: (all-in) "
+	  repeat {
+		action <- tolower(readline(prompt))
+		if (action %in% c("c", "b", "r", "f")) break
+		cat("Invalid input. Try again.\n")
+	  }
+	  if (action == "f") {
+		players[[i]] <- place_bet(p, 0, to_call)
+	  } else if (action == "c" && can_check) {
+		players[[i]] <- place_bet(p, 0, to_call)
+	  } else if (action == "c") {
+		players[[i]] <- place_bet(p, call_amt, to_call)
+	  } else if (action == "b" && can_bet) {
+		amt <- as.numeric(readline("Bet amount: "))
+		amt <- min(amt, p$chips)
+		players[[i]] <- place_bet(p, amt, to_call)
+	  } else if (action == "r" && can_bet) {
+		amt <- as.numeric(readline("Raise amount: "))
+		amt <- min(amt, p$chips)
+		players[[i]] <- place_bet(p, call_amt + amt, to_call)
+	  }
+	  acted[i] <- TRUE
 	}
-	p <- players[[current]]
-	if (!p$in_hand || p$folded || p$all_in || p$chips == 0) {
-	  acted[current] <- TRUE
-	  current <- (current %% n) + 1
-	  if (!is.null(last_raiser) && current == last_raiser) break
-	  if (all(acted | sapply(players, function(p) !p$in_hand || p$folded || p$all_in))) break
-	  next
-	}
-	to_call <- max(sapply(players, function(p) p$bet)) - p$bet
-	can_check <- to_call == 0
-	can_bet <- p$chips > 0
-	prompt <- if (can_check) "[c]heck, [b]et, [f]old: " else if (can_bet) "[c]all, [r]aise, [f]old: " else "[f]old: (all-in) "
-	repeat {
-	  cat(sprintf("%s (chips: %d, bet: %d)%s\n", p$name, p$chips, p$bet, if (current == dealer_pos) " [DEALER]" else ""))
-	  action <- tolower(readline(prompt))
-	  if (action %in% c("c", "b", "r", "f")) break
-	  cat("Invalid input. Try again.\n")
-	}
-	if (action == "f") {
-	  players[[current]] <- place_bet(p, 0, to_call)
-	  acted[current] <- TRUE
-	} else if (action == "c" && can_check) {
-	  players[[current]] <- place_bet(p, 0, to_call)
-	  acted[current] <- TRUE
-	} else if (action == "c") {
-	  players[[current]] <- place_bet(p, to_call, to_call)
-	  acted[current] <- TRUE
-	} else if (action == "b" && can_bet) {
-	  amt <- as.numeric(readline("Bet amount: "))
-	  amt <- min(amt, p$chips)
-	  players[[current]] <- place_bet(p, amt, to_call)
-	  last_raiser <- current
-	  acted <- rep(FALSE, n); acted[current] <- TRUE
-	} else if (action == "r" && can_bet) {
-	  amt <- as.numeric(readline("Raise amount: "))
-	  amt <- min(amt, p$chips)
-	  players[[current]] <- place_bet(p, to_call + amt, to_call)
-	  last_raiser <- current
-	  acted <- rep(FALSE, n); acted[current] <- TRUE
-	}
-	current <- (current %% n) + 1
-	if (!is.null(last_raiser) && current == last_raiser) break
+	# End betting round if all have acted and no new raises
 	if (all(acted | sapply(players, function(p) !p$in_hand || p$folded || p$all_in))) break
   }
-  # Move all bets to pot and reset for next stage
-  pot <- pot + sum(sapply(players, function(p) p$bet))
-  for (i in seq_along(players)) players[[i]]$bet <- 0
-  list(players = players, pot = pot)
+  players
 }
 
 #'interactive_tournament
@@ -267,7 +211,6 @@ interactive_betting_round <- function(players, round_name, min_bet = 10, dealer_
 #'@examples
 #'interactive_tournament(c("Alice", "Bob"), 1000)
 #'@export
-
 interactive_tournament <- function(player_names = c("Player 1", "Player 2", "Player 3", "Player 4"), chips = 1000, small_blind = 5, big_blind = 10) {
   players <- tournament_init_players(player_names, chips)
   hand_num <- 1
@@ -281,35 +224,18 @@ interactive_tournament <- function(player_names = c("Player 1", "Player 2", "Pla
 	poker_players <- assignToPlayers(nPlayers, position, y)
 	board <- assignToBoard(y)
 	cards <- hand(poker_players, board)
-	pot <- 0
-	# Pre-flop: post blinds first, then show graphics
-	# Post blinds
-	n <- length(players)
-	sb_pos <- (dealer_pos %% n) + 1
-	bb_pos <- (sb_pos %% n) + 1
-	players[[sb_pos]] <- place_bet(players[[sb_pos]], small_blind, 0)
-	players[[bb_pos]] <- place_bet(players[[bb_pos]], big_blind, 0)
-	# Show updated graphics after blinds
+	# Pre-flop
 	cgiPlayers(1, sapply(players, function(p) p$name), position, cards, dealer_pos = dealer_pos, chips = sapply(players, function(p) p$chips))
-	# Run betting round
-	result <- interactive_betting_round(players, "Pre-flop", min_bet = big_blind, dealer_pos = dealer_pos, small_blind = small_blind, big_blind = big_blind, cards = cards, pot = pot)
-	players <- result$players
-	pot <- result$pot
+	players <- interactive_betting_round(players, "Pre-flop", min_bet = big_blind, dealer_pos = dealer_pos, small_blind = small_blind, big_blind = big_blind)
 	# Flop
 	cgiPlayers(2, sapply(players, function(p) p$name), position, cards, dealer_pos = dealer_pos, chips = sapply(players, function(p) p$chips))
-	result <- interactive_betting_round(players, "Flop", min_bet = big_blind, dealer_pos = dealer_pos, cards = cards, pot = pot)
-	players <- result$players
-	pot <- result$pot
+	players <- interactive_betting_round(players, "Flop", min_bet = big_blind, dealer_pos = dealer_pos)
 	# Turn
 	cgiPlayers(3, sapply(players, function(p) p$name), position, cards, dealer_pos = dealer_pos, chips = sapply(players, function(p) p$chips))
-	result <- interactive_betting_round(players, "Turn", min_bet = big_blind, dealer_pos = dealer_pos, cards = cards, pot = pot)
-	players <- result$players
-	pot <- result$pot
+	players <- interactive_betting_round(players, "Turn", min_bet = big_blind, dealer_pos = dealer_pos)
 	# River
 	cgiPlayers(4, sapply(players, function(p) p$name), position, cards, dealer_pos = dealer_pos, chips = sapply(players, function(p) p$chips))
-	result <- interactive_betting_round(players, "River", min_bet = big_blind, dealer_pos = dealer_pos, cards = cards, pot = pot)
-	players <- result$players
-	pot <- result$pot
+	players <- interactive_betting_round(players, "River", min_bet = big_blind, dealer_pos = dealer_pos)
 	# Showdown
 	score <- showdown(cards)
 	winner <- tiebreaker(nPlayers, cards, score)
@@ -1917,8 +1843,6 @@ tiebreaker <- function(nPlayers,cards,score) {
 #'												. \cr \tab
 #'												col13: rank of card 7 \cr \tab
 #'												col14: suit of card 7}
-##'@param dealer_pos (optional) Integer index of the dealer (1-based)
-##'@param chips (optional) Integer vector of chip counts for each player
 #'@return In lieu of a return value, cgiPlayers calls the plot() function.
 #'@examples
 #'alias <- c("Player1","Player2","Player3","Player4","Player5")
@@ -1930,9 +1854,12 @@ tiebreaker <- function(nPlayers,cards,score) {
 #'cols11thru14 <- c(11,11,11,11,11,11,11,11,11,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2)
 #'cols11thru14 <- c(cols11thru14,3,3,3,3,3,3,3,3,3)
 #'cards <- matrix(c(cols1thru5,cols6thru10,cols11thru14),nrow=9,ncol=14); cards
-#'cgiPlayers(1,alias,9,cards,dealer_pos=1,chips=rep(1000,9))
+#'cgiPlayers(1,alias,9,cards)
+#'cgiPlayers(2,alias,9,cards)
+#'cgiPlayers(3,alias,9,cards)
+#'cgiPlayers(4,alias,9,cards)
 #'@export
-cgiPlayers <- function(time, alias, position, cards, dealer_pos = NULL, chips = NULL) {
+cgiPlayers <- function(time, alias, position, cards) {
 	nPlayers <- nrow(cards)
 	width <- 30
 	height <- 20
@@ -1982,51 +1909,43 @@ cgiPlayers <- function(time, alias, position, cards, dealer_pos = NULL, chips = 
 			X1 <- c(rep(5,3),seq(from = 5,to = width-5, length = 3),rep(width-5,3))
 			Y1 <- c(11,8.5,6,rep(3.5,3),6,8.5,11)
 			}
-  for (i in 1:nPlayers) {
-	# Mark dealer with a D or highlight
-	label <- alias[i]
-	if (!is.null(dealer_pos) && i == dealer_pos) {
-	  label <- paste0(label, " (D)")
-	}
-	text(X1[i], Y1[i], label)
-	# Show chip count if provided
-	if (!is.null(chips)) {
-	  text(X1[i], Y1[i] - 1.2, paste0("Chips: ", chips[i]), cex=0.8)
-	}
-	for (j in 1:2) {
-	  #RANK
-	  X2 <- X1[i]-2+3*(j-1)
-	  Y2[i] <- Y1[i] - .5
-	  if(cards[i,2*j-1]<=10) {
-		text(X2,Y2[i], cards[i,2*j-1])
-	  }
-	  if(cards[i,2*j-1]==11) {
-		text(X2,Y2[i], "J")
-	  }
-	  if(cards[i,2*j-1]==12) {
-		text(X2,Y2[i], "Q")
-	  }
-	  if(cards[i,2*j-1]==13) {
-		text(X2,Y2[i], "K")
-	  }
-	  if(cards[i,2*j-1]==14) {
-		text(X2,Y2[i], "A")
-	  }
-	  #SUIT
-	  if(cards[i,2*j]==1) {
-		text(X2+1,Y2[i], "\u2660") #♠
-	  }
-	  if(cards[i,2*j]==2) {
-		text(X2+1,Y2[i],"\u2663") #♣
-	  }
-	  if(cards[i,2*j]==3) {
-		text(X2+1,Y2[i], "\u2665") #♥
-	  }
-	  if(cards[i,2*j]==4) {
-		text(X2+1,Y2[i], "\u2666") #♦
-	  }
-	}
-  }
+		for (i in 1:nPlayers) 
+		{
+				text(X1[i], Y1[i], alias[i])
+				for (j in 1:2) {			
+					#RANK
+					X2 <- X1[i]-2+3*(j-1)
+					Y2[i] <- Y1[i] - .5
+					if(cards[i,2*j-1]<=10) {
+						text(X2,Y2[i], cards[i,2*j-1])
+						}
+					if(cards[i,2*j-1]==11) {
+						text(X2,Y2[i], "J")
+						}
+					if(cards[i,2*j-1]==12) {
+						text(X2,Y2[i], "Q")
+						}
+					if(cards[i,2*j-1]==13) {
+						text(X2,Y2[i], "K")
+						}
+					if(cards[i,2*j-1]==14) {
+						text(X2,Y2[i], "A")
+						}			
+					#SUIT
+					if(cards[i,2*j]==1) {
+						text(X2+1,Y2[i], "\u2660") #♠
+						}
+					if(cards[i,2*j]==2) {
+						text(X2+1,Y2[i],"\u2663") #♣
+						}
+					if(cards[i,2*j]==3) {
+						text(X2+1,Y2[i], "\u2665") #♥
+						}
+					if(cards[i,2*j]==4) {
+						text(X2+1,Y2[i], "\u2666") #♦
+						}	
+				}
+		}
 	}		
 	#FLOP
 	if (time == 2 ) {
