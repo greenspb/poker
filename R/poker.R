@@ -1,4 +1,259 @@
 ####################
+#'create_player
+#'
+#'Create a player for tournament mode.
+#'
+#'@param name The player's name as a string.
+#'@param chips The number of chips the player starts with as integer in {1, 2, ...}.
+#'@return player : a list representing the player with fields:
+#'  \itemize{
+#'    \item name: character, the player's name
+#'    \item chips: integer, number of chips
+#'    \item in_hand: logical, whether the player is still in the current hand
+#'    \item bet: integer, current bet for the hand
+#'    \item folded: logical, whether the player has folded
+#'    \item all_in: logical, whether the player is all-in
+#'  }
+#'@seealso \code{\link{tournament_init_players}}, \code{\link{reset_hand}}
+#'@examples
+#'create_player("Alice", 1000)
+#'@export
+create_player <- function(name, chips) {
+  list(name = name, chips = chips, in_hand = TRUE, bet = 0, folded = FALSE, all_in = FALSE)
+}
+
+#'tournament_init_players
+#'
+#'Initialize players for a tournament.
+#'
+#'@param names Character vector of player names.
+#'@param chips Starting chips for each player as integer in {1, 2, ...}.
+#'@return players : list of player objects as returned by \code{create_player}.
+#'@seealso \code{\link{create_player}}, \code{\link{reset_hand}}
+#'@examples
+#'tournament_init_players(c("Alice", "Bob"), 1000)
+#'@export
+tournament_init_players <- function(names, chips = 1000) {
+  lapply(names, create_player, chips = chips)
+}
+
+#'reset_hand
+#'
+#'Reset hand state for all players at the start of a new hand.
+#'
+#'@param players List of player objects as returned by \code{tournament_init_players}.
+#'@return players : list of player objects with in_hand, bet, folded, and all_in reset for the new hand.
+#'@seealso \code{\link{tournament_init_players}}, \code{\link{create_player}}
+#'@examples
+#'players <- tournament_init_players(c("Alice", "Bob"), 1000)
+#'reset_hand(players)
+#'@export
+reset_hand <- function(players) {
+  lapply(players, function(p) {
+	p$in_hand <- TRUE
+	p$bet <- 0
+	p$folded <- FALSE
+	p$all_in <- FALSE
+	p
+  })
+}
+
+#'place_bet
+#'
+#'Place a bet for a player, handling all-in and fold logic.
+#'
+#'@param player Player object as returned by \code{create_player}.
+#'@param amount Amount to bet (relative to current bet) as integer in {0, 1, ...}.
+#'@param to_call Amount required to call as integer in {0, 1, ...}.
+#'@return player : updated player object with chips, bet, and all_in/folded status updated.
+#'@seealso \code{\link{reset_hand}}, \code{\link{interactive_betting_round}}
+#'@examples
+#'p <- create_player("Alice", 100)
+#'place_bet(p, 50, 0)
+#'@export
+place_bet <- function(player, amount, to_call) {
+  if (amount < 0) stop("Bet must be non-negative")
+  if (player$chips <= 0) {
+	player$all_in <- TRUE
+	return(player)
+  }
+  if (amount == 0 && to_call == 0) {
+	# Check
+	return(player)
+  } else if (amount == 0) {
+	# Fold
+	player$folded <- TRUE
+	player$in_hand <- FALSE
+  } else {
+	bet_amount <- min(amount, player$chips)
+	player$chips <- player$chips - bet_amount
+	player$bet <- player$bet + bet_amount
+	if (player$chips == 0) player$all_in <- TRUE
+  }
+  player
+}
+
+#'award_pot
+#'
+#'Award the pot to winner(s), handling sidepots (basic version).
+#'
+#'@param players List of player objects as returned by \code{reset_hand}.
+#'@param winners Indices of winning players (integer vector).
+#'@return players : list of player objects with chips updated and bets reset to zero.
+#'@seealso \code{\link{interactive_tournament}}, \code{\link{eliminate_broke_players}}
+#'@examples
+#'players <- tournament_init_players(c("Alice", "Bob"), 100)
+#'players[[1]]$bet <- 50; players[[2]]$bet <- 50
+#'award_pot(players, 1)
+#'@export
+award_pot <- function(players, winners) {
+  pot <- sum(sapply(players, function(p) p$bet))
+  share <- pot / length(winners)
+  for (i in winners) {
+	players[[i]]$chips <- players[[i]]$chips + share
+  }
+  for (i in seq_along(players)) players[[i]]$bet <- 0
+  players
+}
+
+#'eliminate_broke_players
+#'
+#'Eliminate players with zero chips who are not eligible for any sidepot.
+#'
+#'@param players List of player objects as returned by \code{award_pot}.
+#'@return players : filtered list of players with chips > 0 or who are still in a sidepot.
+#'@seealso \code{\link{award_pot}}, \code{\link{interactive_tournament}}
+#'@examples
+#'players <- tournament_init_players(c("Alice", "Bob"), 0)
+#'eliminate_broke_players(players)
+#'@export
+eliminate_broke_players <- function(players) {
+  # Only eliminate if player has zero chips and is not in any pot (not in_hand and not all_in)
+  Filter(function(p) p$chips > 0 || (p$in_hand && (p$bet > 0 || p$all_in)), players)
+}
+
+#'interactive_betting_round
+#'
+#'Run an interactive betting round with improved user interface and sidepot support.
+#'
+#'@param players List of player objects as returned by \code{reset_hand}.
+#'@param round_name Name of the betting round as character (e.g., "Pre-flop").
+#'@param min_bet Minimum bet for the round as integer.
+#'@param dealer_pos Index of dealer as integer.
+#'@param small_blind Amount for small blind as integer.
+#'@param big_blind Amount for big blind as integer.
+#'@return players : updated list of player objects after the betting round.
+#'@seealso \code{\link{interactive_tournament}}, \code{\link{place_bet}}
+#'@examples
+#'players <- tournament_init_players(c("Alice", "Bob"), 100)
+#'interactive_betting_round(players, "Pre-flop")
+#'@export
+interactive_betting_round <- function(players, round_name, min_bet = 10, dealer_pos = 1, small_blind = 5, big_blind = 10) {
+  n <- length(players)
+  to_call <- max(sapply(players, function(p) p$bet))
+  # Set blinds if pre-flop
+  if (round_name == "Pre-flop") {
+	sb_pos <- (dealer_pos %% n) + 1
+	bb_pos <- (sb_pos %% n) + 1
+	players[[sb_pos]] <- place_bet(players[[sb_pos]], small_blind, 0)
+	players[[bb_pos]] <- place_bet(players[[bb_pos]], big_blind, 0)
+	to_call <- big_blind
+  }
+  acted <- rep(FALSE, n)
+  repeat {
+	for (i in seq_along(players)) {
+	  p <- players[[i]]
+	  if (!p$in_hand || p$folded || p$all_in || p$chips == 0) next
+	  cat(sprintf("%s (chips: %d, bet: %d)%s\n", p$name, p$chips, p$bet, if (i == dealer_pos) " [DEALER]" else ""))
+	  to_call <- max(sapply(players, function(p) p$bet))
+	  call_amt <- to_call - p$bet
+	  can_check <- call_amt == 0
+	  can_bet <- p$chips > 0
+	  prompt <- if (can_check) "[c]heck, [b]et, [f]old: " else if (can_bet) "[c]all, [r]aise, [f]old: " else "[f]old: (all-in) "
+	  repeat {
+		action <- tolower(readline(prompt))
+		if (action %in% c("c", "b", "r", "f")) break
+		cat("Invalid input. Try again.\n")
+	  }
+	  if (action == "f") {
+		players[[i]] <- place_bet(p, 0, to_call)
+	  } else if (action == "c" && can_check) {
+		players[[i]] <- place_bet(p, 0, to_call)
+	  } else if (action == "c") {
+		players[[i]] <- place_bet(p, call_amt, to_call)
+	  } else if (action == "b" && can_bet) {
+		amt <- as.numeric(readline("Bet amount: "))
+		amt <- min(amt, p$chips)
+		players[[i]] <- place_bet(p, amt, to_call)
+	  } else if (action == "r" && can_bet) {
+		amt <- as.numeric(readline("Raise amount: "))
+		amt <- min(amt, p$chips)
+		players[[i]] <- place_bet(p, call_amt + amt, to_call)
+	  }
+	  acted[i] <- TRUE
+	}
+	# End betting round if all have acted and no new raises
+	if (all(acted | sapply(players, function(p) !p$in_hand || p$folded || p$all_in))) break
+  }
+  players
+}
+
+#'interactive_tournament
+#'
+#'Run an interactive Texas Hold'em tournament with graphics, dealer, blinds, and sidepot support.
+#'
+#'@param player_names Character vector of player names.
+#'@param chips Starting chips per player as integer.
+#'@param small_blind Small blind amount as integer.
+#'@param big_blind Big blind amount as integer.
+#'@return NULL. Runs interactively and prints results to the console and graphics window.
+#'@seealso \code{\link{interactive_betting_round}}, \code{\link{award_pot}}, \code{\link{eliminate_broke_players}}
+#'@examples
+#'interactive_tournament(c("Alice", "Bob"), 1000)
+#'@export
+interactive_tournament <- function(player_names = c("Player 1", "Player 2", "Player 3", "Player 4"), chips = 1000, small_blind = 5, big_blind = 10) {
+  players <- tournament_init_players(player_names, chips)
+  hand_num <- 1
+  dealer_pos <- 1
+  repeat {
+	cat("\n--- Hand", hand_num, "---\n")
+	players <- reset_hand(players)
+	nPlayers <- length(players)
+	position <- dealer_pos
+	y <- deal(nPlayers, position)
+	poker_players <- assignToPlayers(nPlayers, position, y)
+	board <- assignToBoard(y)
+	cards <- hand(poker_players, board)
+	# Pre-flop
+	cgiPlayers(1, sapply(players, function(p) p$name), position, cards, dealer_pos = dealer_pos, chips = sapply(players, function(p) p$chips))
+	players <- interactive_betting_round(players, "Pre-flop", min_bet = big_blind, dealer_pos = dealer_pos, small_blind = small_blind, big_blind = big_blind)
+	# Flop
+	cgiPlayers(2, sapply(players, function(p) p$name), position, cards, dealer_pos = dealer_pos, chips = sapply(players, function(p) p$chips))
+	players <- interactive_betting_round(players, "Flop", min_bet = big_blind, dealer_pos = dealer_pos)
+	# Turn
+	cgiPlayers(3, sapply(players, function(p) p$name), position, cards, dealer_pos = dealer_pos, chips = sapply(players, function(p) p$chips))
+	players <- interactive_betting_round(players, "Turn", min_bet = big_blind, dealer_pos = dealer_pos)
+	# River
+	cgiPlayers(4, sapply(players, function(p) p$name), position, cards, dealer_pos = dealer_pos, chips = sapply(players, function(p) p$chips))
+	players <- interactive_betting_round(players, "River", min_bet = big_blind, dealer_pos = dealer_pos)
+	# Showdown
+	score <- showdown(cards)
+	winner <- tiebreaker(nPlayers, cards, score)
+	winner_names <- sapply(winner, function(i) players[[i]]$name)
+	players <- award_pot(players, winner)
+	cat("\nScores:", paste(score, collapse=", "), "\n")
+	cat("Winner(s):", paste(winner_names, collapse=", "), "\n")
+	players <- eliminate_broke_players(players)
+	if (length(players) < 2) {
+	  cat("\nTournament winner:", players[[1]]$name, "\n")
+	  break
+	}
+	hand_num <- hand_num + 1
+	dealer_pos <- (dealer_pos %% length(players)) + 1
+	if (tolower(readline("Play another hand? (y/n): ")) != "y") break
+  }
+}
+####################
 #'testRoundOfPoker
 #'
 #'Run a test round of poker.
