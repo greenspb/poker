@@ -1,98 +1,3 @@
-####################
-#'create_player
-#'
-#'Create a player for tournament mode.
-#'
-#'@param name The player's name as a string.
-#'@param chips The number of chips the player starts with as integer in {1, 2, ...}.
-#'@return player : a list representing the player with fields:
-#'  \itemize{
-#'    \item name: character, the player's name
-#'    \item chips: integer, number of chips
-#'    \item in_hand: logical, whether the player is still in the current hand
-#'    \item bet: integer, current bet for the hand
-#'    \item folded: logical, whether the player has folded
-#'    \item all_in: logical, whether the player is all-in
-#'  }
-#'@seealso \code{\link{tournament_init_players}}, \code{\link{reset_hand}}
-#'@examples
-#'create_player("Alice", 1000)
-#'@export
-create_player <- function(name, chips) {
-  list(name = name, chips = chips, in_hand = TRUE, bet = 0, folded = FALSE, all_in = FALSE)
-}
-
-#'tournament_init_players
-#'
-#'Initialize players for a tournament.
-#'
-#'@param names Character vector of player names.
-#'@param chips Starting chips for each player as integer in {1, 2, ...}.
-#'@return players : list of player objects as returned by \code{create_player}.
-#'@seealso \code{\link{create_player}}, \code{\link{reset_hand}}
-#'@examples
-#'tournament_init_players(c("Alice", "Bob"), 1000)
-#'@export
-tournament_init_players <- function(names, chips = 1000) {
-  lapply(names, create_player, chips = chips)
-}
-
-#'reset_hand
-#'
-#'Reset hand state for all players at the start of a new hand.
-#'
-#'@param players List of player objects as returned by \code{tournament_init_players}.
-#'@return players : list of player objects with in_hand, bet, folded, and all_in reset for the new hand.
-#'@seealso \code{\link{tournament_init_players}}, \code{\link{create_player}}
-#'@examples
-#'players <- tournament_init_players(c("Alice", "Bob"), 1000)
-#'reset_hand(players)
-#'@export
-reset_hand <- function(players) {
-  lapply(players, function(p) {
-	p$in_hand <- TRUE
-	p$bet <- 0
-	p$folded <- FALSE
-	p$all_in <- FALSE
-	p
-  })
-}
-
-#'place_bet
-#'
-#'Place a bet for a player, handling all-in and fold logic.
-#'
-#'@param player Player object as returned by \code{create_player}.
-#'@param amount Amount to bet (relative to current bet) as integer in {0, 1, ...}.
-#'@param to_call Amount required to call as integer in {0, 1, ...}.
-#'@return player : updated player object with chips, bet, and all_in/folded status updated.
-#'@seealso \code{\link{reset_hand}}, \code{\link{interactive_betting_round}}
-#'@examples
-#'p <- create_player("Alice", 100)
-#'place_bet(p, 50, 0)
-#'@export
-place_bet <- function(player, amount, to_call) {
-  if (amount < 0) stop("Bet must be non-negative")
-  if (player$chips <= 0) {
-	player$all_in <- TRUE
-	return(player)
-  }
-  if (amount == 0 && to_call == 0) {
-	# Check
-	return(player)
-  } else if (amount == 0) {
-	# Fold
-	player$folded <- TRUE
-	player$in_hand <- FALSE
-  } else {
-	bet_amount <- min(amount, player$chips)
-	player$chips <- player$chips - bet_amount
-	player$bet <- player$bet + bet_amount
-	if (player$chips == 0) player$all_in <- TRUE
-  }
-  player
-}
-
 #'award_pot
 #'
 #'Award the pot to winner(s), handling sidepots (basic version).
@@ -396,7 +301,7 @@ assignToBoard <- function(y) {
 #'Assemble the 7 card hands.
 #'
 #'@param players : \tabular{ll}{the hole cards as			matrix[nPlayers, 4] \tab \cr \tab
-#'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
+#'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab 
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
 #'												col3: rank of card 2 \cr \tab
 #'												col4: suit of card 2}
@@ -715,7 +620,12 @@ dotScorer <- function(cardsRow) {
 #'												col1: rank of card 1 in \{2, ... , 14\} \cr \tab
 #'												col2: suit of card 1 in \{1, 2, 3, 4\} \cr \tab
 #'												col3: rank of card 2 \cr \tab
-#'												col4: suit of card 2}
+#'												col4: suit of card 2 \cr \tab
+#'												. \cr \tab
+#'												. \cr \tab
+#'												. \cr \tab
+#'												col13: rank of card 7 \cr \tab
+#'												col14: suit of card 7}
 #'@return \tabular{ll}{score : the score of the hand in absolute terms as
 #'												vector[nPlayers] \tab \cr \tab
 #'												 9 = Straight Flush \cr \tab
@@ -729,7 +639,7 @@ dotScorer <- function(cardsRow) {
 #'												 1 = High Card}
 #'@seealso \code{\link{dotScorer}}
 #'@examples
-#'showdown(matrix( c( 2,1,3,2,5,3,6,4,7,1,13,2,14,2,2,3,2,4,5,1,6,2,7,3,13,4,14,4),2,14,byrow=TRUE))
+#'showdown(matrix( c( 2,1,3,2,5,3,6,4,7,1,13,2,14,2,2,3,2,4,5,1,6,2,7,3,13,4,14,1))
 #'@export
 showdown <- function(cards) {
 	score <- apply(cards,1,dotScorer)
@@ -967,10 +877,8 @@ dotTwoPairRanker <- function(oneHand) {
 #'@seealso \code{\link{dotTwoPairRanker}} and \code{\link{dotHighcardCompare}}
 #'@examples
 #'cards <- c(2,3,4,5,1,1,1,1,2,3,6,7,2,2,2,2,4,4,4,4,3,3,3,3,11,11,11,11,3,3,3,3)
-#'cards <- c(cards,13,13,13,13,3,3,3,3,14,14,14,14,3,3,3,3,14,14,14,14,4,4,4,4)
-#'cards <- matrix(cards,nrow=4,ncol=14); cards
-#'score <- showdown(cards); score
-#'nPlayers <- nrow(cards); nPlayers
+#'cards <- c(cards,13,13,13,13,3,3,3,3,14,14,14,14,3,3,3,3,9,9,9,9,4,4,4,4)
+#'cards <- matrix(cards,nrow=4,ncol=14)
 #'dotTwoPairs(nPlayers,cards,score)
 #'@export
 dotTwoPairs <- function(nPlayers,cards,score) {
@@ -1066,9 +974,7 @@ dotTripRanker <- function(oneHand) {
 #'@examples
 #'cards <- c(14,14,4,5,1,2,1,1,10,9,6,7,2,2,2,2,4,4,4,4,3,3,3,3,8,8,8,8,3,3,3,3)
 #'cards <- c(cards,13,13,13,13,3,3,3,3,14,14,14,14,3,3,3,3,14,14,14,14,4,4,4,4)
-#'cards <- matrix(cards,nrow=4,ncol=14); cards
-#'score <- showdown(cards); score
-#'nPlayers <- nrow(cards); nPlayers
+#'cards <- matrix(cards,nrow=4,ncol=14)
 #'dotTrips(nPlayers,cards,score)
 #'
 #'cards <- c(14,14,4,5,1,2,1,1,2,3,6,7,2,2,2,2,4,4,4,4,3,3,3,3,11,11,11,11,3,3,3,3)
@@ -1184,12 +1090,14 @@ dotStraightRanker <- function(oneHand) {
 #'cards <- c(cards,4,4,4,6,6,6,2,2,2,14,14,14,2,2,2)
 #'cards <- matrix(cards,nrow=3,ncol=14); cards
 #'score <- showdown(cards); score
+#'nPlayers <- nrow(cards); nPlayers
 #'dotStraight(cards, score)
 #'
 #'cards <- c(2,1,4,2,4,1,4,3,10,1,11,2,2,2,2,3,3,3,3,3,3,1,1,1,5,5,5)
 #'cards <- c(cards,4,4,4,6,6,6,2,2,2,14,14,14,2,2,2)
 #'cards <- matrix(cards,nrow=3,ncol=14); cards
 #'score <- showdown(cards); score
+#'nPlayers <- nrow(cards); nPlayers
 #'dotStraight(cards, score)
 #'@export
 dotStraight <- function(cards,score) {
@@ -1401,12 +1309,14 @@ dotFullHouseRanker <- function(oneHand) {
 #'cards <- c(cards,14,14,14,14,2,2,2,2,14,14,14,14,3,3,3,3,14,14,14,14,4,4,4,4)
 #'cards <- matrix(cards,nrow=4,ncol=14); cards
 #'score <- showdown(cards); score
+#'nPlayers <- nrow(cards); nPlayers
 #'dotFullHouse(cards,score)
 #'
-#'cards <- c(5,10,4,8,1,2,1,1,10,9,6,7,3,2,2,2,12,12,12,12,1,1,1,1,12,12,12,12,3,3,3,3)
-#'cards <- c(cards,14,14,14,14,2,2,2,2,14,14,14,14,3,3,3,3,14,14,14,14,4,4,4,4)
+#'cards <- c(5,10,4,8,1,2,1,1,10,9,6,7,3,2,2,2,12,12,12,12,1,1,1,1,12,12,12,12)
+#'cards <- c(cards,3,3,3,3,14,14,14,14,2,2,2,2,14,14,14,14,3,3,3,3,14,14,14,14,4,4,4,4)
 #'cards <- matrix(cards,nrow=4,ncol=14); cards
 #'score <- showdown(cards); score
+#'nPlayers <- nrow(cards); nPlayers
 #'dotFullHouse(cards,score)
 #'@export
 dotFullHouse <- function(cards,score) {
@@ -1756,50 +1666,8 @@ dotStraightFlush <- function(nPlayers, cards, score) {
 #'tiebreaker(nPlayers,cards,score)
 #'
 #'cards <- c(2,1,3,3,5,3,6,3,7,3,13,3,14,3,2,3,3,4,5,3,6,3,7,3,13,3,14,3)
-#'cards <- matrix(cards,2,14,byrow=TRUE); cards
-#'score <- showdown(cards); score
-#'nPlayers <- nrow(cards); nPlayers
-#'tiebreaker(nPlayers,cards,score)
-#'
-#'cards <- c(5,10,4,8,1,2,1,1,10,9,6,7,3,2,2,2,5,5,5,5,3,3,3,3,8,8,8,8,3,3,3,3)
-#'cards <-c(cards,14,14,14,14,2,2,2,2,14,14,14,14,3,3,3,3,14,14,14,14,4,4,4,4)
-#'cards <- matrix(cards,nrow=4,ncol=14); cards
-#'score <- showdown(cards); score
-#'nPlayers <- nrow(cards); nPlayers
-#'tiebreaker(nPlayers,cards,score)
-#'
-#'cards <- c(5,10,4,8,1,2,1,1,10,9,6,7,3,2,2,2,12,12,12,12,1,1,1,1,12,12,12,12)
-#'cards <-c(cards,3,3,3,3,14,14,14,14,2,2,2,2,14,14,14,14,3,3,3,3,14,14,14,14,4,4,4,4)
-#'cards <- matrix(cards,nrow=4,ncol=14); cards
-#'score <- showdown(cards); score
-#'nPlayers <- nrow(cards); nPlayers
-#'tiebreaker(nPlayers,cards,score)
-#'
-#'cards <- c(14,10,5,1,2,1,14,9,7,2,2,2,4,4,4,3,3,3,8,8,8,3,3,3,13,13,13)
-#'cards <-c(cards,3,3,3,14,14,14,3,3,3,14,14,14,4,4,4)
-#'cards <- matrix(cards,nrow=3,ncol=14); cards
-#'score <- showdown(cards); score
-#'nPlayers <- nrow(cards); nPlayers
-#'tiebreaker(nPlayers,cards,score)
-#'
-#'cards <- c(3,4,5,1,1,1,8,9,10,1,1,1,14,14,14,1,1,1,14,14,14,2,2,2,11,11,11)
-#'cards <-c(cards,3,3,3,14,14,14,3,3,3,14,14,14,4,4,4)
-#'cards <- matrix(cards,nrow=3,ncol=14); cards
-#'score <- showdown(cards); score
-#'nPlayers <- nrow(cards); nPlayers
-#'tiebreaker(nPlayers,cards,score)
-#'
-#'cards <- c(8,13,5,1,1,4,6,2,2,2,3,4,14,14,14,2,2,2,9,9,9,1,1,1,10,10,10)
-#'cards <-c(cards,1,1,1,11,11,11,1,1,1,12,12,12,1,1,1)
-#'cards <- matrix(cards,nrow=3,ncol=14); cards
-#'score <- showdown(cards); score
-#'nPlayers <- nrow(cards); nPlayers
-#'tiebreaker(nPlayers,cards,score)
-#'
-#'cards <- c(1,1,3,4,2,2,3,4,8,8,1,1,9,9,1,1,10,10,1,1,11,11,1,1,12,12,1,1)
-#'cards <- matrix(cards,nrow=2,ncol=14); cards
-#'score <- showdown(cards); score
-#'nPlayers <- nrow(cards); nPlayers
+#'cards <- matrix(cards,2,14,byrow=TRUE);cards
+#'score <- showdown(cards); score 
 #'tiebreaker(nPlayers,cards,score)
 #'@export
 tiebreaker <- function(nPlayers,cards,score) {
@@ -1819,7 +1687,6 @@ tiebreaker <- function(nPlayers,cards,score) {
 	}
 	winner
 }
-
 
 #'cgiPlayers
 #'
@@ -2047,4 +1914,35 @@ cgiPlayers <- function(time, alias, position, cards) {
 			text(X3[i]+1,Y3, "\u2666") #♦
 			}
 	}
+}
+# Minimal helper: create_player
+create_player <- function(name, chips) {
+  list(name = name, chips = chips, in_hand = TRUE, bet = 0, folded = FALSE, all_in = FALSE)
+}
+
+# Restore tournament_init_players
+#' Initialize players for a tournament.
+#' @param names Character vector of player names.
+#' @param chips Starting chips for each player (integer).
+#' @return List of player objects.
+tournament_init_players <- function(names, chips = 1000) {
+  lapply(names, create_player, chips = chips)
+}
+
+# Restore prompt_bet_action
+#' Prompt the player for a betting action (check, call, fold, raise, etc).
+#' @param player_name Character, the player's name.
+#' @param allowed_actions Character vector of allowed actions (e.g., c("c", "f", "r")).
+#' @param check_mode Logical, if TRUE, 'c' means check; if FALSE, 'c' means call.
+#' @return action : single character representing the action.
+prompt_bet_action <- function(player_name, allowed_actions, check_mode = FALSE) {
+  repeat {
+    action_label <- if (check_mode) "check" else "call"
+    actions_pretty <- allowed_actions
+    actions_pretty[actions_pretty == "c"] <- action_label
+    cat(sprintf("%s, your options: %s\n", player_name, paste(actions_pretty, collapse=", ")))
+    action <- tolower(trimws(readline(prompt = sprintf("%s, enter action: ", player_name))))
+    if (action %in% allowed_actions) return(action)
+    cat("Invalid action. Please try again.\n")
+  }
 }
